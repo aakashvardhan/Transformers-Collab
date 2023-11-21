@@ -16,15 +16,16 @@ class TransformerBlock(nn.Module):
     def __init__(self, num_heads, block_size, num_embed, dropout):
         super().__init__()
         head_size = num_embed // num_heads
+        mode = 'gpt'
         self.sa = Attention(
-            mode='GPT',
+            mode=mode,
             num_heads=num_heads,
             head_size=head_size,
             num_embed=num_embed,
             block_size=block_size,
             dropout=dropout,
         )
-        self.ffwd = FF(num_embed=num_embed, dropout=dropout)
+        self.ffwd = FF(mode=mode,num_embed=num_embed, dropout=dropout)
         # layer normalization
         self.ln1 = nn.LayerNorm(num_embed)
         self.ln2 = nn.LayerNorm(num_embed)
