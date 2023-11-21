@@ -74,7 +74,7 @@ def train_bert(model, dataset, data_loader, vocab, config):
 
 # ========================= GPT =========================
 
-def train_gpt(model, loss, train_data, val_data, config):
+def train_gpt(model,train_data, val_data, config):
     # optimizer takes the model's parameters and the learning rate as input,
     # and updates the parameters during the training process in order to
     # minimize the loss function.

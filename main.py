@@ -34,7 +34,7 @@ if __name__ == '__main__':
     if args.model_type == 'gpt':
         config = GPTConfig()
         config.n_epochs = 100
-        dataset, data_loader, vocab = create_gpt_dataset(config)
+        train_data, val_data, tokenizer, vocab_size = create_gpt_dataset(config)
         model = t.GPT(config.vocab_size,
                     config.num_embed,
                     config.block_size,
@@ -42,7 +42,7 @@ if __name__ == '__main__':
                     config.num_layers,
                     config.dropout,
                     config.device)
-        train_gpt(model, dataset, data_loader, vocab, config)
+        train_gpt(model, train_data, val_data, config)
     
     
     
