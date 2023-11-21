@@ -16,6 +16,8 @@ class BertConfig:
         self.lr = 1e-4
         self.weight_decay = 1e-4
         self.betas = (.9, .999)
+        self.sent_pth = 'dataset/training.txt'
+        self.vocab_pth = 'dataset/vocab.txt'
         self.train_file = "dataset/training.txt"
         self.vocab_file = "dataset/vocab.txt"
 
@@ -37,7 +39,9 @@ class BertConfig:
 class GPTConfig:
     def __init__(self):
         self.batch_size = 128
+        self.path_do_data = "dataset/english.txt"
         self.block_size = 64
+        self.split_val = 0.9
         self.max_iter = 5000
         self.eval_inter = 100
         self.lr = 3e-4

@@ -25,8 +25,8 @@ def create_bert_dataset(config):
     # check if path exists, if not create it
     #1) load text
     print('loading text...')
-    sent_pth = 'dataset/training.txt'
-    sentences = open(sent_pth).read().lower().split('\n')
+    # sent_pth = 'dataset/training.txt'
+    sentences = open(config.sent_pth).read().lower().split('\n')
 
     #2) tokenize sentences (can be done during training, you can also use spacy udpipe)
     print('tokenizing sentences...')
@@ -36,14 +36,14 @@ def create_bert_dataset(config):
 
     #3) create vocab if not already created
     print('creating/loading vocab...')
-    vocab_pth = 'dataset/vocab.txt'
-    if not exists(vocab_pth):
+    # vocab_pth = 'dataset/vocab.txt'
+    if not exists(config.vocab_pth):
         words = [w for s in sentences for w in s]
         vocab = Counter(words).most_common(config.n_vocab) #keep the N most frequent words
         vocab = [w[0] for w in vocab]
-        open(vocab_pth, 'w+').write('\n'.join(vocab))
+        open(config.vocab_pth, 'w+').write('\n'.join(vocab))
     else:
-        vocab = open(vocab_pth).read().split('\n')
+        vocab = open(config.vocab_pth).read().split('\n')
 
     #4) create dataset
     print('creating dataset...')
@@ -94,11 +94,11 @@ def save_model(model):
 
 
 
-def create_gpt_dataset(split_val= 0.9):
+def create_gpt_dataset(config):
     
     # raw data
-    path_do_data = "dataset/english.txt"
-    data_raw = open(path_do_data, encoding="utf-8").read()
+    # path_do_data = "dataset/english.txt"
+    data_raw = open(config.path_do_data, encoding="utf-8").read()
     # we use pretrained BERT tokenizer for performance improvements
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     vocab_size = tokenizer.vocab_size
@@ -106,7 +106,7 @@ def create_gpt_dataset(split_val= 0.9):
 
     # train/val split
     data = encode(text_seq=data_raw, tokenizer=tokenizer)
-    n = int(split_val * len(data))  # first 90% will be train, rest val
+    n = int(config.split_val * len(data))  # first 90% will be train, rest val
     train_data = data[:n]
     val_data = data[n:]
     
