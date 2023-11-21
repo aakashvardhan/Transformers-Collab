@@ -15,6 +15,7 @@ if __name__ == '__main__':
     args = parser.parse_args()    
     if args.model_type == 'bert':
         config = BertConfig()
+        config.n_epochs = 100
         dataset, data_loader, vocab = create_bert_dataset(config)
         model = t.BERT(config.n_code,
                     config.n_heads,
