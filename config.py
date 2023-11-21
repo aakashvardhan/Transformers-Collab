@@ -8,6 +8,7 @@ class BertConfig:
         self._embed_size = 128
         self.batch_size = 1024
         self.seq_len = 20
+        self.n_epochs = 10000
         self.n_heads = 8
         self.n_code = 8
         self.n_vocab = 40000
