@@ -3,7 +3,9 @@ from models import (
 import argparse
 from train import train_bert, train_gpt
 from config import BertConfig, GPTConfig
-from utils import create_bert_dataset, create_gpt_dataset
+from utils import (create_bert_dataset, 
+                   create_gpt_dataset,
+                   get_gpt_model)
 
 
 
@@ -35,13 +37,7 @@ if __name__ == '__main__':
         config = GPTConfig()
         config.n_epochs = 100
         train_data, val_data, tokenizer, vocab_size = create_gpt_dataset(config)
-        model = t.GPT(config.vocab_size,
-                    config.num_embed,
-                    config.block_size,
-                    config.num_heads,
-                    config.num_layers,
-                    config.dropout,
-                    config.device)
+        model = get_gpt_model(config, vocab_size)
         train_gpt(model, train_data, val_data, config)
     
     
