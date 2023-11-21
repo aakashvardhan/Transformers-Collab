@@ -55,7 +55,7 @@ class GPT(nn.Module):
         self.position_embedding_table = nn.Embedding(self.block_size, self.num_embed)
         # transformer blocks
         self.blocks = nn.Sequential(*[
-            tb.TransformerBlock(
+            tb(
                 num_heads=self.num_heads,
                 block_size=self.block_size,
                 num_embed=self.num_embed,
