@@ -51,15 +51,16 @@ class FeedForward(nn.Module):
     def __init__(self, mode, **kwargs):
         super().__init__()
         self.mode = mode
+        # ignore capitalization
+        self.mode = self.mode.lower()
         
-        
-        if self.mode not in ['GPT', 'BERT', 'ViT']:
+        if self.mode not in ['bert', 'gpt']:
             raise ValueError("Mode must be 'GPT', 'BERT' or 'ViT'")
         
         if self.mode == 'bert':
             inp_dim = kwargs.get('inp_dim')
             inner_dim = kwargs.get('inner_dim')
-            dropout = kwargs.get('dropout')    
+            dropout = kwargs.get('dropout')
             self.ff = BERT_FeedForwardBlock(inp_dim, inner_dim, dropout)
         elif self.mode == 'gpt':
             num_embed = kwargs.get('num_embed')

@@ -10,8 +10,9 @@ from models.feed_forward import FeedForward as FF
 class EncoderLayer(nn.Module):
     def __init__(self, n_heads, inner_transformer_size, inner_ff_size, dropout=0.1):
         super().__init__()
-        self.mha = Attention('BERT',n_heads, inner_transformer_size, dropout)
-        self.ff = FF(inner_transformer_size, inner_ff_size, dropout)
+        mode = 'bert'
+        self.mha = Attention(mode='BERT', n_heads=n_heads, out_dim=inner_transformer_size, dropout=dropout)
+        self.ff = FF(mode=mode,inp_dim=inner_transformer_size, inner_dim=inner_ff_size, dropout=dropout)
         self.norm1 = nn.LayerNorm(inner_transformer_size)
         self.norm2 = nn.LayerNorm(inner_transformer_size)
         self.dropout1 = nn.Dropout(dropout)

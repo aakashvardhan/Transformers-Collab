@@ -2,10 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# from attention import Attention 
-# from feed_forward import FeedForward as FF
-# from bert_pos_embedding import PositionalEncoding as pe
+from models.bert_pos_embedding import PositionalEncoding as pe
 
+import models.bert_encoder as bert_encoder
 
 
 # ==================== BERT Transformer Block ==================== #
@@ -16,7 +15,7 @@ class BERT(nn.Module):
 
         #model input
         self.embeddings = nn.Embedding(n_embeddings, embed_size)
-        self.pe = pe.PositionalEncoding(embed_size, seq_len)
+        self.pe = pe(embed_size, seq_len)
 
         #backbone
         encoders = []

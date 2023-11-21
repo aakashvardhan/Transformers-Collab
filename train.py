@@ -16,7 +16,7 @@ from utils import get_batch, save_embeddings, save_model
 def train_bert(model, dataset, data_loader, vocab, config):
     model = model.cuda()
     #1) create optimizer
-    optimizer = optim.Adam(model.parameters(), lr=config['lr'])
+    optimizer = optim.Adam(model.parameters(), lr=config.lr)
 
     #2) create loss function
     criterion = nn.CrossEntropyLoss(ignore_index=dataset.IGNORE_IDX)
@@ -25,7 +25,7 @@ def train_bert(model, dataset, data_loader, vocab, config):
     print('training...')
     model.train()
     loader_iter = iter(data_loader)
-    for i in range(config['n_epochs']):
+    for i in range(config.n_epochs):
         #fetch batch
         batch, loader_iter = get_batch(data_loader, loader_iter)
         batch_input = batch['input'].to(config['device'])

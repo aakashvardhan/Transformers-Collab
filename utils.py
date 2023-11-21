@@ -5,9 +5,8 @@ from torch.utils.data import Dataset
 import torch
 import numpy as np
 from collections import Counter
-from config import bert_config
 from os.path import exists
-from bert_dataset import SentencesDataset
+from dataset.bert_dataset import SentencesDataset
 import os
 
 
@@ -31,7 +30,7 @@ def create_bert_dataset(config):
     vocab_pth = 'dataset/vocab.txt'
     if not exists(vocab_pth):
         words = [w for s in sentences for w in s]
-        vocab = Counter(words).most_common(config['n_vocab']) #keep the N most frequent words
+        vocab = Counter(words).most_common(config.n_vocab) #keep the N most frequent words
         vocab = [w[0] for w in vocab]
         open(vocab_pth, 'w+').write('\n'.join(vocab))
     else:
@@ -39,9 +38,9 @@ def create_bert_dataset(config):
 
     #4) create dataset
     print('creating dataset...')
-    dataset = SentencesDataset(sentences, vocab, config['seq_len'])
+    dataset = SentencesDataset(sentences, vocab, config.seq_len)
     # kwargs = {'num_workers':n_workers, 'shuffle':True,  'drop_last':True, 'pin_memory':True, 'batch_size':batch_size}
-    kwargs = {'shuffle':True,  'drop_last':True, 'pin_memory':True, 'batch_size':config['batch_size']}
+    kwargs = {'shuffle':True,  'drop_last':True, 'pin_memory':True, 'batch_size':config.batch_size}
     data_loader = torch.utils.data.DataLoader(dataset, **kwargs)
     
     return dataset, data_loader, vocab
