@@ -85,10 +85,10 @@ def train_gpt(model,train_data, val_data, config):
         # every EVAL_INTER evaluate the loss on train and val sets
         if step % config.eval_inter == 0 or step == config.max_iter - 1:
             loss_train = estimate_loss(
-                data=train_data, model=model, block_size=config.block_size, batch_size=config.batch_size
+                data=train_data, model=model, block_size=config.block_size, batch_size=config.batch_size, config=config
             )
             loss_val = estimate_loss(
-                data=val_data, model=model, block_size=config.block_size, batch_size=config.batch_size
+                data=val_data, model=model, block_size=config.block_size, batch_size=config.batch_size, config=config
             )
             print("step {:10} | train loss {:6.4f} | val loss {:6.4f}".format(step, loss_train, loss_val))
 
