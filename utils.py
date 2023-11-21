@@ -7,6 +7,13 @@ from dataset.bert_dataset import SentencesDataset
 import os
 from datetime import datetime
 import subprocess
+import zipfile
+from pathlib import Path
+import requests
+import matplotlib.pyplot as plt
+import random
+from torch import nn
+
 try:
     from transformers import AutoTokenizer
 except:
@@ -18,6 +25,9 @@ from models.transformer import (
     GPT,
     BERT
 )
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader, Dataset
+
 
 # ========================= BERT =========================
 
@@ -236,3 +246,50 @@ def save_model_to_checkpoint(
     except Exception as e:
         print(f"Could not save model to {full_path}")
         print(e)
+        
+        
+# ========================= ViT =========================
+
+
+
+def create_dataloader(config: any):
+    
+    # Use the image folder function from torchvision.datasets to create datasets
+    train_dataset = datasets.ImageFolder(config.train_dir, transform=config.manual_transform)
+    test_dataset = datasets.ImageFolder(config.test_dir, transform=config.manual_transform)
+    
+    # get class names
+    class_names = train_dataset.classes
+    
+    # Turn images into data loaders
+    train_dataloader = DataLoader(train_dataset,
+                                    batch_size=config.batch_size,
+                                    shuffle=True,
+                                    num_workers=config.num_workers,
+                                    pin_memory=True)
+    test_dataloader = DataLoader(test_dataset,
+                                    batch_size=config.batch_size,
+                                    shuffle=False,
+                                    num_workers=config.num_workers,
+                                    pin_memory=True)
+    return train_dataloader, test_dataloader, class_names
+
+def get_img_batch(dataloader):
+    # Get a batch of images
+    image_batch, label_batch = next(iter(dataloader))
+
+    # Get a single image from the batch
+    image, label = image_batch[0], label_batch[0]
+    
+    return image, label
+
+# Plot a single image and its label
+
+def show_img(image, label, class_names):
+    # Plot image with matplotlib
+    plt.imshow(image.permute(1, 2, 0)) # rearrange image dimensions to suit matplotlib [color_channels, height, width] -> [height, width, color_channels]
+    plt.title(class_names[label])
+    plt.axis(False)
+    # save image
+    plt.savefig(f"image_{class_names[label]}.png")
+    
