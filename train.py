@@ -93,7 +93,7 @@ def train_gpt(model,train_data, val_data, config):
             print("step {:10} | train loss {:6.4f} | val loss {:6.4f}".format(step, loss_train, loss_val))
 
         # sample a batch of data
-        xb, yb = get_batch_for_gpt(data=train_data, block_size=config.block_size, batch_size=config.batch_size)
+        xb, yb = get_batch_for_gpt(data=train_data, block_size=config.block_size, batch_size=config.batch_size, config=config)
         logits, loss = model.forward(xb, yb)
         # zero_grad() method sets the gradients of all parameters in the optimizer to zero
         optimizer.zero_grad(set_to_none=True)
