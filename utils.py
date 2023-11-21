@@ -94,7 +94,7 @@ def save_model(model):
 
 
 
-def create_gpt_dataset(split_val: float = 0.9):
+def create_gpt_dataset(split_val= 0.9):
     
     # raw data
     path_do_data = "dataset/english.txt"
