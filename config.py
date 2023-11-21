@@ -42,7 +42,7 @@ class GPTConfig:
         self.path_do_data = "dataset/english.txt"
         self.block_size = 64
         self.split_val = 0.9
-        self.max_iter = 5000
+        self.max_iter = 500
         self.eval_inter = 100
         self.lr = 3e-4
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

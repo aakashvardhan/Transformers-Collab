@@ -15,6 +15,13 @@ from utils import (get_batch_for_bert,
                    get_batch_for_gpt,
                    estimate_loss,
                    save_model_to_checkpoint)
+# import subprocess
+# try:
+#     import lightning as pl
+#     from lightning.fabric import Fabric
+# except:
+#     print("Installing PyTorch Lightning...")
+#     subprocess.run(["pip", "install", "lightning"])
 
 # ========================= BERT =========================
 
@@ -79,8 +86,7 @@ def train_gpt(model,train_data, val_data, config):
     # and updates the parameters during the training process in order to
     # minimize the loss function.
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr)
-    MAX_ITER = 500
-    for step in range(MAX_ITER):
+    for step in range(config.max_iter):
 
         # every EVAL_INTER evaluate the loss on train and val sets
         if step % config.eval_inter == 0 or step == config.max_iter - 1:
