@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import torch
 
 # ===================== BERT Config ===================== #
 
@@ -30,4 +30,30 @@ class BertConfig:
     @property
     def inner_ff_size(self):
         return self._embed_size * 4
+
+# ===================== GPT Config ===================== #
+
+
+class GPTConfig:
+    def __init__(self):
+        self.batch_size = 128
+        self.block_size = 64
+        self.max_iter = 5000
+        self.eval_inter = 100
+        self.lr = 3e-4
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self._num_head = 6
+        self.num_layer = 6
+        self.dropout = 0.2
+        
+    @property
+    def num_head(self):
+        return self._num_head
     
+    @num_head.setter
+    def num_head(self, value):
+        self._num_head = value
+        
+    @property
+    def num_embed(self):
+        return self._num_head * 128

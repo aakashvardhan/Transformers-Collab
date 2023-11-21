@@ -57,14 +57,17 @@ class FeedForward(nn.Module):
         if self.mode not in ['bert', 'gpt']:
             raise ValueError("Mode must be 'GPT', 'BERT' or 'ViT'")
         
+        # Provide default values for each parameter
+        default_dropout = 0.1  # Set a sensible default value for dropout
+        
         if self.mode == 'bert':
             inp_dim = kwargs.get('inp_dim')
             inner_dim = kwargs.get('inner_dim')
-            dropout = kwargs.get('dropout')
+            dropout = kwargs.get('dropout', default_dropout)
             self.ff = BERT_FeedForwardBlock(inp_dim, inner_dim, dropout)
         elif self.mode == 'gpt':
             num_embed = kwargs.get('num_embed')
-            dropout = kwargs.get('dropout')
+            dropout = kwargs.get('dropout', default_dropout)
             self.ff = GPT_FeedForward(num_embed, dropout)
             
     def forward(self, x):

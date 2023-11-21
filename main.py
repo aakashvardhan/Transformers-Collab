@@ -1,18 +1,23 @@
 from models import (
     transformer as t)
 import argparse
-from train import train_bert
-from config import BertConfig
-from utils import create_bert_dataset
-# i want to train the bert model and use arg parser to get the parameters
-# i want to use the bert model to train the model
+from train import train_bert, train_gpt
+from config import BertConfig, GPTConfig
+from utils import create_bert_dataset, create_gpt_dataset
+
 
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('model_type', type=str, help='model type')
-    args = parser.parse_args()    
+    args = parser.parse_args()
+    # make user input case insensitive
+    args.model_type = args.model_type.lower()
+    
+    if args.model_type not in ['bert', 'gpt']:
+        raise ValueError("Mode must be 'GPT' or 'BERT'")
+    
     if args.model_type == 'bert':
         config = BertConfig()
         config.n_epochs = 100
@@ -25,6 +30,19 @@ if __name__ == '__main__':
                     config.seq_len,
                     config.dropout)
         train_bert(model, dataset, data_loader, vocab, config)
+        
+    if args.model_type == 'gpt':
+        config = GPTConfig()
+        config.n_epochs = 100
+        dataset, data_loader, vocab = create_gpt_dataset(config)
+        model = t.GPT(config.vocab_size,
+                    config.num_embed,
+                    config.block_size,
+                    config.num_heads,
+                    config.num_layers,
+                    config.dropout,
+                    config.device)
+        train_gpt(model, dataset, data_loader, vocab, config)
     
     
     

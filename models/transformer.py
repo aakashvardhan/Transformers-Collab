@@ -1,11 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from models.bert_pos_embedding import PositionalEncoding as pe
-
 import models.bert_encoder as bert_encoder
-
+from models.gpt_transformer_block import TransformerBlock as tb
 
 # ==================== BERT Transformer Block ==================== #
 
@@ -50,6 +48,7 @@ class GPT(nn.Module):
         self.num_heads = kwargs.get('num_heads', 4)
         self.num_layers = kwargs.get('num_layers', 4)
         self.dropout = kwargs.get('dropout', 0.2)
+        self.device = kwargs.get('device', 'cuda' if torch.cuda.is_available() else 'cpu')
         # each token reads the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(self.vocab_size, self.num_embed)
         # each position from 0 to block_size - 1 has a corresponding position embedding
@@ -75,7 +74,7 @@ class GPT(nn.Module):
         # the token emb is (B, T, C) where C is the num_embed
         token_emb = self.token_embedding_table(idx)
         # the position emb is (T, C)
-        posit_emb = self.position_embedding_table(torch.arange(T, device=DEVICE))
+        posit_emb = self.position_embedding_table(torch.arange(T, device=self.device))
         # we add the two embeddings together
         
         x = token_emb + posit_emb
