@@ -163,13 +163,14 @@ class Attention(nn.Module):
     def __init__(self, mode, **kwargs):
         super().__init__()
         self.mode = mode
+        # ignore capitalization
+        self.mode = self.mode.lower()
         
-        
-        if self.mode not in ['GPT', 'BERT', 'ViT']:
+        if self.mode not in ['bert', 'gpt', 'vit']:
             raise ValueError("Mode must be 'GPT', 'BERT' or 'ViT'")
 
         
-        if self.mode == 'GPT':
+        if self.mode == 'gpt':
             # GPT-specific parameters
             num_heads = kwargs.get('num_heads')
             head_size = kwargs.get('head_size')
@@ -179,7 +180,7 @@ class Attention(nn.Module):
             
             self.attention = GPT_MultiHeadAttention(num_heads, head_size, num_embed, block_size, dropout)
             
-        elif self.mode == 'BERT':
+        elif self.mode == 'bert':
             # BERT-specific parameters
             n_heads = kwargs.get('n_heads')
             out_dim = kwargs.get('out_dim')
@@ -187,7 +188,7 @@ class Attention(nn.Module):
             
             self.attention = BERT_MultiHeadAttention(n_heads, out_dim, dropout)
             
-        elif self.mode == 'ViT':
+        elif self.mode == 'vit':
             # ViT-specific parameters
             embedding_dim = kwargs.get('embedding_dim',768)
             num_heads = kwargs.get('num_heads',12)
@@ -196,9 +197,9 @@ class Attention(nn.Module):
             self.attention = VIT_MultiheadSelfAttentionBlock(embedding_dim, num_heads, attn_dropout)
             
     def forward(self, x, y=None, mask=None):
-        if self.mode == 'GPT':
+        if self.mode == 'gpt':
             return self.attention(x)
-        elif self.mode == 'BERT':
+        elif self.mode == 'bert':
             return self.attention(x, y, mask)
-        elif self.mode == 'ViT':
+        elif self.mode == 'vit':
             return self.attention(x)
