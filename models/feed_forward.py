@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 import math
-from lightning import LightningModule
+# from lightning import LightningModule
 import numpy as np
 import torch.nn.functional as F
 
