@@ -1,0 +1,1204 @@
+Session 0 - hola!
+Welcome to the start of the end of your course!
+It was a pleasure working with you all!
+your classmates we have 149 students (at the time of writing) in the eva 8 phase 1 class.
+Few people filled in the form multiple times the average experience of people is 8 years (0-24 years)
+groups will be assigned based on some of the data above or custom based on the email communication that you may have had with the admin till now.
+Please make sure that you have joined the telegram group, and logged into your lms.
+All assignments, except the last one, are group submissions.
+There is a change on lms to reflect this, so everyone needs to know how to submit assignments.
+Even if you are alone, you are your own group.
+Administrative stuff: make sure you have a google colab account make sure you have a github account.
+You will be sharing the code through github links.
+On your lms, please add your name (if not there) every session ends with an assignment and an online quiz on the lms you need to maintain a minimum of 70% score in eva, failing which you will not be able to graduate to phase 2 non-submission of any assignment or quiz is awarded -30% score by default the assignment and quiz deadlines are hard, with no exceptions.
+Extensive vision ai program 8 18-20 weeks, 18 major topics, 15-18 sessions, ~3 hours per session is what will make phase 1 we would be covering tons of research papers and their implementations do not venture out of the course material shared, unless recommended your code, as well as documentation, both are marked (especially the readme. Md files on github) eva is predominantly vision-based, but to cover transformers, we will cover a bit of text/nlp as well.
+Eva is one of the most extensive programs out there.
+Let's get started this is how we want you to feel when you think about dnns:
+building the intuition!
+An ultra-dense connected network of flowing information human eyes eva is going to focus on vision, and the concepts that we'll learn here can be implemented on any kind of data.
+Please take a look at this detailed description on "the evolution of vision" the eye everything w. R. T vision starts with our eyes.
+The eye is our vision sensor and similar to our eyes, we have the camera sensor, which reacts to the light based on the amplitude of the wavelength falling over it.
+This is what a physical camera system looks like: this is how our retina would look under the electron microscope: this is where what we see gets converted into rgb or bnw.
+And this is what a camera sensor looks like: you might know of the 3 main color sensors in our eyes (they are not purely rgb though) similarly, digital camera sensors too have 3 different color sensors: channels any color can be made through a combination of different kinds of "primary color" combinations and we have different color schemes then you have lab, hsv, hsl, etc..
+And a lot more: look at this painting below, and try to see only one color at a time.
+While we are at this image, can you try and convince yourself that your eyes "prefer" to follow gradients, curves, edges, and features in this image, as compared to just plain colors? That is how we need to think about the channels from now on!
+Observe how rgb combines to make white color.
+You really need to get used to the fact that you can combine basic components to make something complicated.
+The connection here to remember is..
+Channels.
+What is this made of? In 3d graphics, we actually never see curved edges: we actually have to use a lot of tricks to fake smoothness (read about antialiasing) if we are focusing on channels, then what would be the "one" of the many possible channels set in the song being played below: when we think in terms of channels, we can "split" the song being played above in its individual components, like the sound made by piano, guitar, bass, drums, etc.
+What is "one" of the possible channel types in the image below? Let's do more such exercises: while we are this, let us understand a very important distinction here think about the channels here (image 1): and here (image 2): in both cases, it is ok to think of these components as "channels", but you must convince yourself, that in image 1, channels are more "basic" or "primary" and in image 2, channels are rather "complex" or "secondary".
+The story of forensics of two missing cats cat 1 cat 2 cat 1: experiment results if you are interested in this topic, read more about retinotopic maps and fmri when we see the image on the left, it gets "printed" on our brains, as shown in the image on the right!
+Cat 2: experiment results our brain has several edge detectors (along with many other things)!
+Would recommend you to look at this video and subscribe to this channel: in our own visual cortex simple, we start with simple shapes, combine them to make complex shapes, and finally get to "see" or process what we actually do!
+If you are more interested in the above topic, please read more on this link something dramatically similar happens in the deep neural networks!
+And being artificial, we can actually see what happens in the layers on a dnn!
+Or we can even "query" the first layer/block of dnns and see what actually they are trying to identify in full detail!
+Let's look at this time-lapse to appreciate how simple strokes can make something really beautiful.
+Here we spend few minutes, while our brain-eye system will spend less than 100ms again, the concept we are stying to learn here is that complex structures or things can be built from simple strokes, similar to the fact that we are communicating right now using just 26 alphabets!
+Core concept: convolutions we need to understand a few other concepts before we jump to convolutions.
+One such concept can be understood from the difference between a rolling shutter camera and a global/total shutter camera the reason behind these effects is how the pixels are actually captured.
+Of course, global shutter cameras always make sense, but they are complex, expensive, and bulky to manufacture.
+All mobile phones use rolling shutter cameras, but now the speed of capture has increased a lot, hence we don't see these effects.
+Rolling shutters are digital in nature, and global shutters are mechanical.
+Dnns would use a rolling shutter kind of concept, but our brains use global shutters kind of capture.
+A slightly extended concept was used during the jurrasic era by computer vision engineers.
+Its called sliding windows to actually implement a global shutter kind of processing in dnns, we would need to change the hardware itself.
+Today hardware processing is based on "clock ticks" and we can process a small amount of data in a very very small tick.
+In both of these examples, let us focus on the "area in context".
+In the images above we either have a horizontal block or a square block of data that we are processing or "reading".
+Now "reading" here basically means, that we are storing it for some kind of processing.
+The pixels that are going to be stored will be worked upon by some algorithm, which ultimately would mean that some numbers would be multiplied/divided/added/etc to them.
+These numbers are called kernels.
+Convolutions a 3x3 kernel on a 4x4 image here we are "reading" 3x3 numbers on a 4x4 image.
+The moment we read these 3x3 pixels we multiply them by some 3x3 other numbers (identified by a dnn).
+These "other 3x3 numbers" are called kernels.
+Let's check this quickly.
+So, there exist simple 3x3 matrix numbers that can easily identify basic lines/edges.
+A 3x3 kernel on a 5x5 imageso if we convolve a 3x3 kernel on a 5x5 image, the output we would create will have a resolution of 3x3.
+This is true only when: we are not going outside of the image (by adding imaginary numbers).
+This by the way is called padding.
+We can add imaginary black/white (0/1/255) numbers and then allow our kernel to slide out of the image (why would we want to do this>>session 3) we are not using a stride of more than 1, i. E.
+We will cover each 3x3 section immediately after 1 pixel in the images above, our kernel skips/jumps only 1 pixel.
+If we were to jump/skip 2 pixels, then our kernel has a stride of 2 (pixels).
+Fully connected layers there is another way to read the data.
+Look at this image: we can unroll this image and make something like this: and now instead of reading 3x3 2d data, we can read this 1d data, where every number is multiplied by other numbers as shown in this example: more about these in the next session.
+Receptive fields the most important image in eva/cnns receptive fields form the core concept behind eva and deep convolutional networks.
+But we want to leave this concept as a "cliffhanger" till the next episode.
+The assignment your assignment questions are on a separate quiz listed as "session 0 assignment.
+100 pts this is not a group assignment  weeks.
+Videos studio google meet session 1 - neural architecture concepts from session 0 why do we add layers? Receptive fields convolution mathematics max pooling max pooling invariances layer count kernels in layers 1 3x3 is misleading multi-channel convolution out network now assignment concepts from session 0 here we see a 3x3 kernel convolving on an image/channel of size 4x4.
+Every purple pixel we see represents a value in the image/last channel, so in total, we are looking at 16 values.
+These values are generated from the image/last channel on which we are convolving, so we have no control over changing them.
+The dark purple 3x3 moving box is our kernel.
+We initialize it (and all other kernels) randomly.
+We do have control over the values of these kernels, and that is what we would be changing (via back-propagation), such that they become the feature extractor and provide a better channel for the next layer's kernels.
+Whenever our kernel is stopped (figuratively in the animation above), we are looking/reading 9 pixels of the image/last channel, which we multiply with the 9 values of our kernel, and then sum these 9 values to get a single value.
+The case is different if we have multiple channels in the input, we'll cover this aspect later.
+Once we get this single value, we pass it on to the next channel.
+This output channel is shown in green color in the animation.
+Whenever we perform a convolution with a 3x3 kernel on an image of 4x4 in size, the output channel would have a resolution of 2x2.
+We essentially lose 2 pixels in the x as well as in the y-axis.
+Convolving a 3x3 kernel on a 5x5 image/channel.
+Similarly, if we convolve a 3x3 kernel on a 5x5 image, the output channel we would create, will have a resolution of 3x3.
+This is true in the case when: 1.
+We are not using any padding (we are not adding additional 0s (what else can we add? ) on the boundaries of our input image, changing its resolution, say from 5x5 to 7x7), and 2.
+We are not using a stride of more than 1.
+In the images above, you see, that whenever the kernel moves, it skips just 1 pixel.
+If it were to skip 2 pixels, that would be called a stride of 2.
+Why do we add layers? We have an objective (say detecting an object), and we can do that easily if we could detect the parts of the objects.
+Parts of the objects can be built from some patterns, and these patterns in turn can be made from textures.
+To make any kind of texture, we would need edges and gradients.
+We add layers to procedurally do exactly this.
+We expect that our first layers would be able to extract simple features like edges and gradients.
+The next layers would then build slightly complex features like textures, and patterns.
+Then later layers could build parts of objects, which can then be combined into objects.
+This can be seen in the image above.
+As we progressively add layers, the receptive field of the network slowly increases.
+If we are using 3x3 kernels, then each pixel in the second layer has only "seen" (receptive field) 3x3 pixels.
+Before the network can take any decision, the whole image needs to be processed.
+We add layers to achieve this.
+Also, consider the fact that required or important edges and gradients can be made or seen within 11x11 pixels in an image of 400x40ut say, we were looking at a face, the parts of the face would take much more area (or the number of pixels).
+Receptive field here we see our first layer as a 5x5 image.
+We are convolving this 5x5 image with a kernel of size 3x3, and hence the resulting output resolution will be a channel with 3x3 pixels/values.
+When we convolve on this 3x3 channel with a kernel of size 3x3, we will get only 1 output.
+We have added 2 layers here.
+But what is receptive field? The receptive field in a deep neural network (dnn) refers to the portion of the input space that a particular neuron is "sensitive" to, or in other words, the region of the input that influences the neuron's output.
+In convolutional neural networks (cnns), the receptive field is determined by the spatial extent of the filters and the strides of the convolutional operations.
+Larger receptive fields lead to neurons that have a wider field of view, allowing them to capture more complex relationships in the input data.
+To get the final output of 1 or 1x1, we could have used a 5x5 kernel directly.
+This means that using a 3x3 kernel twice is equivalent to using a 5x5 kernel.
+This also means that two layers of 3x3 have a resulting receptive field of 5x5.
+As we have discussed in class, we want the final global receptive field (at the final prediction layer or output layer) to be equal to the size of the image.
+This is important as the network needs to "see" the whole image before it can predict exactly what the image is all about.
+This would mean that we need to add as many layers are required to reach the final receptive field equal to the size of the object.
+Since we have decided to consider the size of the object to be equal to the size of the image (for the first few sessions), our final receptive field is going to be the size of the image.
+(we know this is not true, images can have objects of any size, but we need to consider this restriction to build our concepts.
+Later we would work on what needs to be done to remove this restriction).
+As we discussed in the last session, two 3x3 make 5x5, and so on.
+And while this is happening the receptive fields of each kernel is also increasing.
+In the image below we see this phenomenon: reference the last few images might be confusing, so we can look at the image below where we can see that these kernels are essentially becoming good at focusing on their object/part specialization: reference convolution mathematics we can see above that our 3x3 kernel has these values: 0 1 2 2 2 0 0 1 2 whenever our kernel is stopping on a 3x3 area, we are looking at 9 multiplications and the sum of the resulting 9 multiplications being passed on to the output (green) channel as shown in the image above.
+The values in the output channel can be considered as the "confidence" of finding a particular feature.
+Higher the value, the higher the confidence, and the lower (or more negative) the value, the "higher" the confidence in the non-existence of the feature.
+A strided convolution would look like this: some examples of edge detectors would be: when we use the horizontal edge detector kernel with the values, as shown above, we get the following result: let's look at this through some numbers.
+Let us look at how a vertical edge would look in an image: the values shown in bold represents a vertical line in this image let us define our vertical kernel as: -1 2 -1 -1 2 -1 -1 2 -1 after convolving the values we get are: -2.0 4.3 -2.3 -1.7 4.1 -2.1 -1.7 4.1 -2.1 we can clearly see in this example that the central vertical values in the 3x3 output layer are above, the detection of the vertical line.
+Not only we have detected the vertical line, but we are also passing on an image/channel which shows a vertical line.
+Spend a few moments to think about this bold line.
+How many layers would we need to move from a 400x400 image to 1x1?
+As we saw in the last lecture, we need to add around 200 layers (as we add each layer we reduce the size of the image/channel by 2, so 400/2 = 200, which gives us the number of layers we need to add).
+Now, these are an insanely large number of layers.
+We can do much better than this.
+Gpu processing while we are at this matrix below, let's rearrange this a bit (heavily) 0.1 below is our rearrangement.
+Please spend some time and think about what happened here: modern graphics processing units often side simd implementations, capable of branches, loads, and stores on 128 or 256 bits at a time.
+Simd stands for single instruction multiple data.
+Compared to the cpu which performs scalar operations, gpus perform simd, as described in the image below: but what's that got to do with our unrolling? Well, for a gpu doing all those convolutions on 1 single image, is just one step!
+(mostly) -1 2 -1 -1 2 -1 -1 2 -1 -2.0 4.3 -2.3 -1.7 4.1 -2.1 -1.7 4.1 -2.1 mostly because multiplying multiple numbers with the same matrix and then adding them happens in a single clock tick, but the whole operation might not fit into the available memory, so it might need further clock ticks.
+Max pooling max pooling is a simple solution to our problem.
+It has tons of advantages, and like everything that comes with advantages, has a few drawbacks too.
+Now before we look at max-pooling, i want you to look at this image again: remember, that you need to always think like an engineer.
+We are seeing convolution above, where we discussed a particular elementwise multiplication and then the sum procedure.
+But who is stopping you from inventing another procedure? Let's think of a few other things that we can do here.
+Clearly, one of these can be max-pooling, as well as min, average, mean, exponential, log, etc-pooling.
+But this is what max pooling would look like!
+Here we are using a 3x3 max-pooling operator, but we will always use a 2x2 operator in the future.
+Let us observe the image below: here we must notice a few things: how small can we make an image, such that information is still preserved? What other methods can be there to make an image small, such that we have most of the information preserved when we make images smaller, we lose some features, but that makes them look similar and easier for our network to identify features.
+Max pooling invarianes max pooling adds a bit of: shift invariance | rotational invariance | scale invariance layer counts after max pooling 400 | 398 | 396 | 394 | 392 | 390 | mp (2x2) 195 | 193 | 191 | 189 | 187 | 185 | mp (2x2) 92 | 90 | 88 | 86 | 84 | 82 | mp (2x2) 41 | 39 | 37 | 35 | 33 | 31 | mp (2x2) 15 | 13 | 11| 9 | 7 | 5 | 3 | 1 by using maxpooling we have reduced the layer count from 200 to 27.
+That's much better.
+Kernels in layer/block 1 we would need a set of edges and gradients to be detected to be able to represent the whole image.
+Through experiments, we have learned that we should use around 32 or 64 kernels in the first layer, increasing the number of kernels slowly.
+Let us assume we add 32 kernels in the first layer, 64 in the second, 128 in the third, and so on.
+Our network would look something like this: 400x400 | (3x3)x32 | 398x398x32 398x398 | (3x3)x64 | 396x396x64 ...
+One needs to observe here that the input to the second layer is not 398x398 but 398x398x32, as we added 32 kernels.
+Each kernel would create its own channel.
+3x3 is misleading what we meant here is that unless we write the total channels in the 3x3 kernels, we are not representing it properly.
+We should write our kernel as 3x3x1.
+If we were to re-write our network above again, it should be: 400x400x1 | (3x3x1)x32 | 398x398x32 398x398x32 | (3x3x32)x64 | 396x396x64 ...
+Notice that our kernels in the second layer have 32 channels.
+Our kernels must have an equal number of channels as in the input channel.
+Since input has 32 channels in the second layer, our kernel will have 32 channels.
+Each channel in the kernel (say channel # 23) will look only at 1 channel (channel number 23 in the input).
+Let's look at this animation: in this animation, you can see that each kernel has 3 channels.
+Three channels are required as the input (5x5) has three channels.
+We are using 4 kernels here, which means we would have 4 channels in the output.
+Hence the output is 3x3x4.
+If we have an infinite number of channels in the input, our kernels must have infinite channels.
+This has nothing to do with the number of channels in the output.
+Output channels are equal to the number of kernels we use.
+Multi-channel convolution look at this image below, now you can understand how multi-channels are handled.
+(please note that the bias is obsolete, and not used/focused on anymore) our network now we are adding an increasing number of kernels as generally required: 400x400x1 | (3x3)x32 | 398x398x32 398x398x32 | (3x3)x64 | 396x396x64 396x396x64 | (3x3)x128 | 394x394x128 394x394x128 | (3x3)x256 | 392x392x256 392x392x256 | (3x3)x512 | 390x390x512 maxpooling 195x195x512...
+We have a problem here.
+Even though till now we have used 32+64+128+256+512 kernels (which is a small number), we right now have 992 images in our memory.
+We solved the issue of large channel size by using maxpooling, but we need to figure out a way to reduce the number of channels while making sure, that, we are not defeating the purpose of increasing the number of channels (something we desperately want).
+We'll resolve this cliffhanger in the next session!
+Fully connected layers in the image below as 7 unrolls into 28*28 numbers, the weights are being learned to learn a pattern in 1d unrolled array.
+More on this later: assignment open this link: colablink duplicate this file to your collaboratory then: read the file carefully add comments to all the cells, explaining exactly what that cell does (quality of comments will add to the score) in the cell where the main model is defined: write the receptive field of each layer as a comment (assume maxpooling doubles the rf for now) write the input channel dimensions run each cell one by one experiment once you are done with your experiments, attempt the session 1 assignment.
+You will have 45 minutes to answer questions about the code you just edited.
+You will also be running the code once/twice within these 45 minutes (so before attempting the assignment, try and play around in another duplicate file).
+Read the assignment questions carefully before attempting the questions you also have an actual quiz called session 1 - quiz fixed deadlines unless wwiii starts video studio gm session 1.5 - git & python 101 we'll cover the basics of git and python required for this course.
+Introduction to git git is a free and open-source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
+A version control system is a software tool that helps developers manage and track changes to their codebase.
+With vcs, developers can easily collaborate on a project share code and maintain a history of their work.
+As developers we: create things, then save them, and subsequently at some other point in time: edit them or make changes or make corrections or make modifications based on some requests and then save them again, and subsequently at some other points in time: edit them or ....
+This is why we need a vcs: tracing and managing changes to the codebase: a vcs allows developers to easily track and manage changes to their codebase over time.
+This is important because it allows developers to see who made which change, when they were made, and why they were made.
+Collaborating on projects: a vcs makes it easy for developers to collaborate on a project.
+With a vcs, developers can share code and work together on a project without worrying about losing or overwriting each other's changes rolling back changes: a version control system provides a way to roll back changes if something goes wrong.
+This is important because it allows developers to undo mistakes and revert to a previous version of their code if necessary.
+Maintaining a history of changes: a vcs maintains a history of all the changes that are made to the codebase.
+This is important because it allows developers to see how the codebase has evolved over time, and to understand how different versions of the codebase are related.
+In short, a vcs helps to provide us clarity as to: when we did it why we did do it (if we left a note, which is sort of compulsory by the way) what exactly change who changed it can we roll back to another version can we branch out and make some changes and then merge? 	 Some basic commands that we should know to start working with git are: git init: this command is used to initialize a new git repository.
+This is your working directory now.
+Git add: this command is used to add files to the git staging area (temporary area before you commit).
+Git commit: this command is used to create a new commit, which is a snapshot of the codebase at a specific point in time.
+A commit includes a message that describes the changes that were made.
+Git push: this command is used to push local commits to the git repository that you want others to get.
+Git pull: this command is used to pull changes from a remote git repository.
+This is useful when you want to get the latest changes from other developers.
+Git checkout: this command is used to switch between different branches in a git repository.
+This is required to allow developers to easily switch between different versions of the codebase and to experiment with new changes without affecting the main branch of the repository.
+Getting started with git how do we set it up? Git is primarily used via the command-line interface, which we can access with our system terminals.
+However, we first need to make sure that we have git installed on our computers.
+Head over to https: //git-scm. Com/downloads after installing it, start your terminal and type the following command to verify that git is ready to be used on your computer.
+If everything went well, it should return the git version that is installed on your computer.
+Configuring your name & email git needs to know who you are and your email id to track the changes you are going to make (imagine a company with 100s of developers).
+In your terminal, run the following commands to identify yourself with git (if you already have git installed, then check your configuration by git config -i): repositories when working with git, it is important to know that there are two types of repositories (a repository is a container for a project that is tracked by git): local repo: an isolated repo stored on your computer, where you can work on the local version of your project global repo: generally stored outside of your computer/local system, usually on a remote server (for example github) initializing a repository to create a new repository and start tracking your project with git, you need to navigate to the main folder of your project in the terminal and then type: this command generated a hidden . Git directory for your projects, where git stores all internal tracking data for the current repo.
+Staging committing is the process in which the changes are "officially" added to the git repo.
+These are the "point" in history we can go back to for our review, even revert to this point.
+Since "commitment" is a serious business, before we can actually commit, we need to place our changes inside the staging area.
+First, let's check the status of our folders/files: the instructions are pretty clear above.
+Let's add a file and check the status again: we can use the command git add to add our files to the staging area, which allows them to be tracked we can add specific files or all the files together.
+Making commits a commit is a snapshot of our code at a particular time, which we are saving to the commit history.
+After adding all the files that we want to track to the staging area with the git add command, we are ready to make a commit: commit history to see all the commits that were made for our project, you can use the command git log.
+Now, let's add some text to our file, check git status, then git commit.
+Oh!
+We get an error, so git add .
+Then git commit -m "message", then git log.
+Copy the hash of the old commit, and then git checkout hash.
+Isn't it wonderful!
+Here is a git cheatsheet that you should get used to in time to come.
+Python 101 here is the link to the code that we covered in class.
+Assignment review the code that we covered in class.
+Write each command again to create brain muscle install git, practice git, ace git no submission, no quiz!
+Videos studio gm session 2 - first neural networks weights, kernels, activations & layers why do neural networks work so well? Most of the problems in the world are not simple, i. E.
+Real-world "data" cannot be modeled with a single line.
+Play with this tool below: most of the problems are non-linear in nature and we need non-linear tools.
+Just observe how difficult it is to get a perfect square wave using fourier transform in this image below: look at this amazing work by jazzemon on fourier neural networks can have a large number of free parameters (or weights between interconnected units) and this gives them the flexibility to fit highly complex data (when trained correctly) that other models are too simple to fit.
+This model complexity brings with it the problems of training such a complex network and ensuring the resultant model generalizes to the examples it is trained on.
+Typically neural networks required large volumes of training data, that other models don't.
+What kind of data are we dealing with? Below you see a car: this image is broken down into smaller "features" by the 4 layers in our visual cortex: only after an image is broken down into its features, our brain can combine it back into logical pieces: edges/gradients (lines on the skin)  textures/patterns (large hatch pattern)  part of objects (head similar to crocodile)  objects (it's a dragon!
+) feed-forward networks we discussed in the last session that when we use fc layers, we lose the temporal data.
+Look at that animation below: in an fc layer, there is no concept of spatial or temporal information.
+Neurons are responsible to learn an abstract representation of the data.
+But what if? ? Feedforward networks have the following characteristics neurons or perceptrons are arranged in a layer, with the first layer taking in inputs and the last layer producing the output.
+The middle layers have no connections with the external world and hence are called hidden layers.
+Each neuron or perceptron in one layer is connected to every perceptron on the next layer.
+Hence information is constantly "fed forward" from one layer to the next.
+There are no connections among the perceptions in the same layer.
+Each of the circles that you see is actually a neuron, but each line you see is the weight that we are training and is of importance to us.
+Those circles are "temporary" values that will be stored.
+Once you train the model, lines are what all matter!
+These lines are denoted by w's where i and j are the neurons it is connecting together.
+What are neurons? 	A neuron is a fundamental unit of our brain.
+Neuron, w. R. T.
+Our brain consists of a small "memory storage" or a "signal", as well as a "small computational unit".
+When we refer to neurons in dnns/nns we only consider a small "memory storage" or a "signal" and keep the computation unit outside.
+This computation unit consists of two elements, a weight, and an activation function.
+Each neuron in both cases has input connections.
+Input connections to a brain neuron are called a dendrite and output connection is called an axon.
+Both are called just input and output weights in nns.
+Assuming these are n connections coming in, the output of the neuron (after using the weights and activation function) can be represented as: where b is a bias with which we are stuck for historical reasons.
+Is playing the role of an activation function here.
+In our brain, we have different kinds of neurons doing different things (the brain's activation function) with the information coming in.
+In the case of nns, we generally have a single activation like tanh/sigmoid/relu, etc.
+Let's quickly build up an excel sheet and make a feedforward nn, that we will be using for performing backpropagation in the next session.
+Euron is a fundamental unit of our brain.
+Neuron, w. R. T.
+Our brain consists of a small "memory storage" or a "signal", as well as a "small computational unit".
+When we refer to neurons in dnns/nns we only consider a small "memory storage" or a "signal" and keep the computation unit outside.
+This computation unit consists of two elements, a weight, and an activation function.
+Each neuron in both cases has input connections.
+Input connections to a brain neuron are called a dendrite and output connection is called an axon.
+Both are called just input and output weights in nns.
+Kernels let's look at what 3x3 kernels are trying to extract: we really cannot find any pattern here.
+A 3x3 block is a very small area to actually gather any perceivable information (for human eyes), especially when we are referring to an image of size 400x40ow about 5x5 kernels? Even at 5x5 (from large image sizes) we cannot make out the patterns being extracted.
+In fact, at 7x7 we might also fail (look below): 11x11 - the turning points for +200 images it is only at the receptive fields of around 11x11 when we would be able to make out patterns being extracted: 4 blocks - edges/gradients, textures/patterns, part of objects, and objects.
+All this while we have been discussing that we extract edges and gradients, textures, patterns, parts of objects, and then objects.
+But is it true? It is indeed true!
+Look at the visualization below where we can see what our kernels are extracting: some of the very important weblinks that we need to take a look at: cnn explorer feature visualization receptive fields convolution with strides let us first discuss the consequences of using strides: we learned in the last lecture that when we convolve with the standard way (stride of 1), we cover most of the pixels 9 times (we covered only 1 pixel 9 times on a channel of size 5x5, but as the channel size increases, we cover more and more pixels 9 times, for e. G.
+On a channel of size 400x400, 396x396 pixels would be covered 9 times).
+But, when we convolve with a stride of more than 1, we would be covering some pixels more than once.
+And this is not good, as we are creating an island of extra information spread around in a repeating pattern.
+The image below would help: as you can see, we are spreading the information unevenly.
+We are actually blurring the inputs as can be seen in the image below: let's check out distill again.
+We will come across this checkerboard issue again in super-resolution algorithms.
+Observe the last image in the sequence of images below: but then why do we use convolutions with strides? It reduces the amount of computation required by the network it reduces the size of the output, hence reducing the overall number of layers to achieve the target rf it increases the rf drastically it adds additional invariant feature learning capabilities to the network it improves the speed of the inferencing.
+Listing two major disadvantages as well: it causes checkerboard issues in the channels/images it reduces the spatial resolution of the output, which means it makes it more difficult for further layers to learn detailed, fine-grained features multi-channel convolution it should be clear that we are using a 3x3x3x4 kernel above.
+The antman!
+We stopped here in the last session.
+400x400x3 | (3x3x3)x32 | 398x398x32 rf of 3x3 398x398x32 | (3x3x32)x64 | 396x396x64 rf of 5x5 396x396x64 | (3x3x64)x128 | 394x394x128 rf of 7x7 394x394x128 | (3x3x128)x256 | 392x392x256 rf of 9x9 392x392x256 | (3x3x256)x512 | 390x390x512 rf of 11x11 maxpooling 195x195x512 | (? X? X512)x32 | ? X? X32 rf of 22x22 ..
+3x3x32x64 rf of 24x24 ..
+3x3x64x128 rf of 26x26 ..
+3x3x128x256 rf of 38x28 ..
+3x3x256x512 rf of 30x30 some points to consider before we proceed: in the network above, the most important numbers for us are: 400x400, as that defines where our edges and gradients would form 11x11, as that's the receptive field that we are trying to achieve before we add transformations (like channel size reduction using maxpooling) 512 kernels, as that is what we would need at a minimum to describe all the edges and gradients for the kind of images we are working with (imagenet) we have added 5 layers above, but that is inconsequential as our aim was to reach the 11x11 receptive field.
+For some other datasets we might have reached the required rf for edges&gradients, say after 4 or 3 layers we are using 3x3 because of the benefits it provides, our ultimate aim is to reach the receptive field of 11x11 we are following 32, 64, 128, 256, and 512 kernels, but there are other possible patterns.
+We are choosing this specific one as this is expressive enough to build the 512 final kernels we need, and since this is an experiment we could, later on, reduce the kernels depending on what hardware we pick for deployment.
+The receptive field of 30x30 is again important for us because that is where we are "hoping" from textures.
+The 5 convolution layers we see above form the "convolution block".
+The question we left unanswered in the last session was, how should we reduce the number of kernels.
+We cannot just add 32, 3x3 kernels as that would re-analyze all the 512 channels and give us 32 kernels.
+This is something we used to do before 2014, and it works, but intuitively we need something better.
+We have 512 features now, instead of evaluating these 512 kernels and coming out with 32 new ones, it makes sense to combine them to form 32 mixtures.
+That is where 1x1 convolution helps us.
+Think about these few points: wouldn't it be better to merge our 512 kernels into 32 richer kernels that could extract multiple features which come together? 3x3 is an expensive kernel, and we should be able to figure out something lighter, and less computationally expensive method.
+Since we are merging 512 kernels into 32 complex ones, it would be great if we do not pick those features which are not required by the network to predict our images (like backgrounds).
+1x1 provides all these features.
+1x1 is computation less expensive.
+1x1 is not even a proper convolution, as we can, instead of convolving each pixel separately, multiply the whole channel with just 1 number 1x1 is merging the pre-existing feature extractors, creating new ones, keeping in mind that those features are found together (like edges/gradients which make up an eye) 1x1 is performing a weighted sum of the channels, so it can so happen that it decides not to pick a particular feature that defines the background and not a part of the object.
+This is helpful as this acts like filtering.
+Imagine the last few layers seeing only the dog, instead of the dog sitting on the sofa, the background walls, painting on the wall, shoes on the floor, and so on.
+If the network can filter out unnecessary pixels, later layers can focus on describing our classes more, instead of defining the whole image.
+1x1 convolutions this is what 1x1 convolutions look like: what you are seeing above is an input image of size 7x7xd where d is the number of channels.
+We remember from the last lecture, that any kernel which wants to convolve, will need to possess the same number of channels.
+Our 1x1 kernel must have d channels.
+Simply put, our new kernel has d values, all defined randomly, to begin with.
+In 1x1 convolution, each channel in the input image would be multiplied with 1 value in the respective channel in 1x1, and then these weighted values would be summed together to create our output.
+Let's look at this image: animated 1x1: what you see above is an input of size 32x32x1e are using 4 1x1 kernels here.
+Since we have 10 channels in input, our 1x1 kernel also has 10 channels.
+32x32x10 | 1x1x10x4 | 32x32x4 we have reduced the number of channels from 10 to 4.
+Similarly, we will use 1x1 in our network to reduce the number of channels from 512 to 32.
+Let's look at the new network: 400x400x3  (3x3x3)x32  398x398x32 rf of 3x3 convolution block 1 begins 398x398x32  (3x3x32)x64  396x396x64 rf of 5x5 396x396x64  (3x3x64)x128  394x394x128 rf of 7x7 394x394x128  (3x3x128)x256  392x392x256 rf of 9x9 392x392x256  (3x3x256)x512  390x390x512 rf of 11x11 convolution block 1 ends transition block 1 begins maxpooling(2x2) 195x195x512  (1x1x512)x32 195x195x32 rf of 22x22 transition block 1 ends convolution block 2 begins 195x195x32  (3x3x32)x64  193x193x64 rf of 24x24 193x193x64  (3x3x64)x128 191x191x128 rf of 26x26 191x191x128  (3x3x128)x256  189x189x256 rf of 28x28 189x189x256  (3x3x256)x512  187x187x512 rf of 30x30 convolution block 2 ends transition block 2 begins maxpooling(2x2) 93x93x512  (1x1x512)x32  93x93x32 rf of 60x60 transition block 2 ends convolution block 3 begins 93x93x32 (3x3x32)x64  91x91x64 rf of 62x62 ...
+Notice, that we have kept the first convolution outside of our convolution block, as now we can create a functional block receiving 32 channels and then perform 4 convolutions, giving finally 512 channels, which can then be fed to the transition block (hoping to receive 512 channels) which finally reduces channels to 32.
+The modern architecture squeeze and expand vs pyramidical what we have covered as architecture is for understanding only.
+This architecture is called squeeze and expand.
+Most modern architecture, however, follows pyramidical architecture: major points: resnet is the latest among the above.
+You can clearly note 4 major blocks.
+The total number of kernels increases from 64 > 128 > 256 > 512 as we proceed from the first block to the last (unlike what we discussed where at each block we expand to 512.
+Both architectures are correct, but 64 ...
+512 would lead to lesser computation and parameters.
+Only the most advanced networks have ditched the fc layer for the gap layer.
+In tsai we will only use gap layers.
+Every network starts from 56x56 resolution!
+Activation functions and which one to use.
+Their main purpose is to convert an input signal of a node in an ann to an output signal.
+For ages, this activation function has kept the aiml community occupied in the wrong direction.
+After the convolution is done, we need to take a call about what to do with the values our kernel is providing us.
+Should we let all pass, or should we change them? This question of choice (of what to do with output) has kept us guessing.
+And as humans always feel, deciding what to pick and what to remove must have a complicated solution.
+Why do we need an activation function? Here is what chatgpt thinks: activation functions allow neurons to respond in a non-linear way to the input data, which is important for modeling many real-world problems.
+Activation functions introduce non-linearity into the network, which improves its ability to learn complex patterns and relationships in the data.
+Without activation functions, a neural network would be limited to learning only linear relationships, which would make it much less effective at solving many real-world problems.
+Activation functions are an essential component of neural networks because they enable the network to learn complex patterns and relationships in the data, and they allow the network to be more powerful and versatile.
+Activation functions are necessary for the proper functioning of neural networks, and they play a crucial role in determining the performance of the network on real-world tasks.
+Let us understand why we need an activation function.
+Let's start by asking, what is that  doing there? A linear activation function (or none) has two major problems: it is not possible to use backpropagation (gradient descent) to train the modelthe derivative of the function is a constant and has no relation to the input, x.
+So its not possible to go back and understand which weights in the input neurons can provide a better prediction .
+All layers of the neural network collapse into onewith linear activation functions, no matter how many layers are in the neural network, the last layer will be a linear function of the first layer (because a linear combination of linear functions is still a linear function).
+So a linear activation function turns the neural network into just one layer that is why we need activation functions (other than just linear ones) link activation function tyoes sigmoid we used the sigmoid function for decades and faced something called gradient descent or gradient explosion problems.
+This is how sigmoid works: tanh when sigmoids didn't work, we felt maybe another complicated function, called tanh might work: relu this is a very simple function.
+It allows all the positive numbers to pass on, as it is, and converts all the negatives to zero.
+It is a simple message to backpropagation or kernels: "if you want some data to be passed on to the next layers, please make sure the values are positive.
+Negative values would be filtered out. " this also means that if some value should not be passed on to the next layers, just convert them to negatives.
+Relu layer filters out negative numbers: relu since has worked wonders for us.
+It is fast, simple, and efficient.
+Relu- rectified linear units: it has become very popular in the past 5-6 of years.
+It was recently (2018) proved that it had 6 times improvement in convergence from the tanh function.
+Mathematically it is just: relu is linear (identity) for all positive values, and zero for all negative values.
+This means that: its cheap to compute as there is no complicated math.
+The model can, therefore, take less time to train or run.
+It converges faster.
+Linearity means that the slope doesnt plateau, or saturate, when x gets large.
+It doesnt have the vanishing gradient problem suffered by other activation functions like sigmoid or tanh.
+Its sparsely activated.
+Since relu is zero for all negative inputs, its likely for any given unit to not activate at all.
+But aren't humans known to complicate things? One might wonder, why such partiality to all the negative numbers.
+What if we allow a negative number to leak a few of their values? Thence came leakyrelu relu vs leakyrelu and then why stop there? You can complicate this further.
+Now instead of being a constance, we can get dnn to figure out what should be.
+And then came a sequence of papers, each just adding a character before elu and creating new activation functions.
+Selu elu srelu swish gelu so which activation function to use? Want to keep things simple? Relu most of the time the innovators of these new activation functions are using relu in later papers, that encouraging.
+There is no clear proof of which one is better.
+The innovators claim theirs is better, but then later peer group would release their studies that claim otherwise.
+Relu is simple, efficient, and fast, and even if any one of the above is better, we are talking about a marginal benefit, with an increase in computation.
+We'll stick to relu in our course.
+Also, nvidia has acceleration for relu activation, so that helps too.
+Want amazing things at cost? Gelu read more here references interactive introduction to fourier transforms why do neural networks work so well - quora what is a convolutional neural network feature visualization - how neural networks build up their understanding of images.
+Computing receptive fields deconvolution and checkerboard artifacts activation functions in neural networks is gelu, the relu successor? Activation functions in deep learning: a comprehensive survey and benchmark the assignment quiz assignment refer to this colab file you need to go through this file, perform tons of experiments and then proceed to answer the questions in session 2 - assignment qna.
+Please note that you only have 35 minutes to answer the assignment, so you won't have time to answer the question by performing the experiments while the quiz is in progress.
+So work on the colab file first, understand the code, try and fix bugs, if any, and then proceed to answer the quiz questions.
+Videos \sincere apologies for not being able to capture the full session in studio mode.
+Studio - partial google meet - complete session 2.5: pytorch 101 introduction to pytorch pytorch vs tensorflow tensors autograd tensors and numpy sharing memory for performance tensor indexing squeezing and unsqueezing and other operations writing a nn from scratch in pytorch: working with dataset building a network accessing the weights forward function training loss gradients weight updates batch training epochs assignment colab please refer to this colab file (my notes) and this colab file (class notes) for the stuff we discussed today.
+Assignment write a neural network that can: take 2 inputs: an image from the mnist dataset (say 5), and a random number between 0 and 9, (say 7) and gives two outputs: the "number" that was represented by the mnist image (predict 5), and the "sum" of this number with the random number and the input image to the network (predict 5 + 7 = 12) you can mix fully connected layers and convolution layers you can use one-hot encoding to represent the random number input and the "summed" output.
+Random number (7) can be represented as 0 0 0 0 0 0 0 1 0 0 sum (13) can be represented as: 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 (remember that 4 digits in binary can at max represent 15, so we may need to go for 5 digits.
+I. E.
+10010 your code must be: well documented (via readme file on github and comments in the code) must mention the data representation must mention your data generation strategy (basically the class/method you are using for random number generation) must mention how you have combined the two inputs (basically which layer you are combining) must mention how you are evaluating your results must mention "what" results you finally got and how did you evaluate your results must mention what loss function you picked and why!
+Training must happen on the gpu accuracy is not really important for the sum once done, upload the code with short training logs in the readme file from colab to github, and share the github link (public repository) studio video google meet video session 3 - backpropagation & architectural basics we'll cover backpropagation followed by architectural basics today.
+Backpropagation neural networks come in many forms, but the main form we need to master is that of "fully connected layers".
+A network with many such (or other) layers is called "deep".
+Let's look at a very simple neural network.
+Let's make sure we talk about the error and path small errors are taking to finally get accumulated at e_total.
+What is that  doing there? A linear activation function has two major problems: 1.
+Not possible to use backpropagation (gradient descent) to train the modelthe derivative of the function is a constant and has no relation to the input, x.
+So its not possible to go back and understand which weights in the input neurons can provide a better prediction.
+2.
+All layers of the neural network collapse into onewith linear activation functions, no matter how many layers in the neural network, the last layer will be a linear function of the first layer (because a linear combination of linear functions is still a linear function).
+So a linear activation function turns the neural network into just one layer.
+That is why we need activation functions (other than just linear).
+Let's finish off the nn in the excel sheet, but this time with full backpropagation involved!
+Fully connected layers this is how fully connected layers look like: each line you see is the weight we are training.
+Those circles are "temporary" values that will be stored.
+Once you train the model, lines are what all matter!
+What digit do you think this pattern represents? Exactly, that's the point.
+This is what it actually represents.
+The process which converts our 2d data into 1d is shown below: as you can see we lose spatial information when we use fully connected layers.
+What if we can add this information back? We have tried to add this information back in a linear fashion, but that didn't result in huge improvements and wasn't researched further for longer.
+More ideas on position encoding the above one was definitely an improvement (for images), but why do you think this data representation should cause an improvement? For representing 1 data point, we are now using 2 dimensions.
+This is a general trend that we'll see.
+The more dimensions that we use, the better the representation is.
+But how much can we really go? Then came, better positional encodings (all of this is what we'll cover in future segments, but is here to remind you why fc layers are still relevant) above by the way is a human representation of how pe should be designed.
+But then we asked nns, and here is their answer: this is how weights and multiplications work in the case of fc layers: let's talk about this network below: this is a simple three-layer network, input neuron layer, hidden neuron layer, and output neuron layers.
+Slowly (without pes) we removed all, but one fc with convolutions and called it fc network!
+Vgg - when last layer screwed it up!
+- pre 2014 parameters modern architecture - post 2014 what we have covered (expand-squeeze channels) as architecture is for understanding only.
+This architecture is called squeeze and expand.
+Most of modern architecture follows this architecture: major points: resnet is the latest among the above.
+You can clearly note 4 major blocks.
+The total number of kernels increases from 64 > 128 > 256 > 512 as we proceed from the first block to the last (unlike what we discussed where at each block we expand to 512.
+Both architectures are correct, but 64 ...
+512 would lead in lesser computation and parameters.
+Only the most advanced networks have ditched the fc layer for the gap layer.
+In tsai we will only use gap layers.
+Nearly every network starts from 56x56 resolution!
+Softmax this is how our code looked like after the second session: first softmax what is softmax? In mathematics, the softmax function, also known as softargmax[1] or normalized exponential function is a function that takes as input a vector of k real numbers and normalizes it into a probability distribution consisting of k probabilities proportional to the exponentials of the input numbers.
+The softmax function is often used in the final layer of a neural network-based classifier.
+Why softmax is not probability, but likelihood!
+The output of the softmax describes the likelihood (or if you may, the confidence) of the neural network that a particular sample belongs to a certain class.
+Thus, for the first example above, the neural network assigns confidence of  that it is a cat,  that it is a dog, and  that it is a horse.
+The same goes for each of the samples above.
+We can then see that one advantage of using the softmax at the output layer is that it improves the interpretability of the neural network.
+By looking at the softmax output in terms of the networks confidence, we can then reason about the behavior of our model.
+Negative log-likelihood in practice, the softmax function is used in tandem with the negative log-likelihood (nll).
+This loss function is very interesting if we interpret it in relation to the behavior of softmax.
+First, lets write down our loss function: when we train a model, we aspire to find the minima of a loss function given a set of parameters (weights).
+We can interpret the loss as the "unhappiness" of the neural network with respect to its parameters.
+The higher the loss, the higher the unhappiness, which we don't want.
+We want to make our network happy.
+So if we are using the negative log-likelihood as our loss function, when does it become unhappy? And when does it become happy? Let's see a plot: the negative log-likelihood becomes unhappy at smaller values, where it can reach infinite unhappiness (that's too sad), and becomes happy at larger values.
+Because we are summing the loss function to all the correct classes, what's actually happening is that whenever the network assigns high confidence at the correct class, the unhappiness is low, and vice-versa.
+But why not log(softmax)?
+[reference] architectural blocks maxpooling used when we need to reduce channel dimensions not used close to each other used far off from the final layer used when a block has finished its work (edges-gradients/textures-patterns/parts-of-objects/objects nn. Maxpool2d() batch normalization
+we need a whole dedicated session for bn (next session), so that's all for bn used after every layer never used before last layer indirectly you have sort of already used it!
+Nn. Batchnorm2d() dropout needs further discussion that what we will have today (next session) used after every layer used with small values is a kind of regularization not used at a specific location nn. Dropout2d() learning rate needs a dedicated session (6-7) stick to suggested values the main tool to achieve moksh optimizer = optim. Sgd(model. Parameters(), lr=, momentum= batch size will be covered in further detail in sessions to come don't break your head, look at this curve and see the diff in val accuracies.
+Used as a part of data_loader assignment assignment: part 1[250]: rewrite the whole excel sheet showing backpropagation.
+Explain each major step, and write it on github.
+Use exactly the same values for all variables as used in the class take a screenshot, and show that screenshot in the readme file the excel file must be there for us to cross-check the image shown on readme (no image = no score) explain each major step show what happens to the error graph when you change the learning rate from [    1.0, 2.0] upload all this to github and then write all the above as part 1 of your readme. Md file.
+Submit details to s4 - assignment qna.
+Part 2 [250]: we have considered many points in our last 4 lectures.
+Some of these we have covered directly and some indirectly.
+They are: how many layers, maxpooling, 1x1 convolutions, 3x3 convolutions, receptive field, softmax, learning rate, kernels and how do we decide the number of kernels? Batch normalization, image normalization, position of maxpooling, concept of transition layers, position of transition layer, dropout when do we introduce dropout, or when do we know we have some overfitting the distance of maxpooling from prediction, the distance of batch normalization from prediction, when do we stop convolutions and go ahead with a larger kernel or some other alternative (which we have not yet covered) how do we know our network is not going well, comparatively, very early batch size, and effects of batch size etc (you can add more if we missed it here) refer to this code: colablink write it again such that it achieves 99.4% validation accuracy less than 20k parameters you can use anything from above you want.
+Less than 20 epochs have used bn, dropout, a fully connected layer, have used gap.
+To learn how to add different things we covered in this session, you can refer to this code: https: //www. Kaggle. Com/enwei26/mnist-digits-pytorch-cnn-99 dont copy architecture, just learn how to integrate things like dropout, batchnorm, etc.
+This is a slightly time-consuming assignment, please make sure you start early.
+You are going to spend a lot of effort into running the programs multiple times once you are done, submit your results in s3-assignment-solution you must upload your assignment to a public github repository.
+Create a folder called s3 in it, and add your ipynb code to it.
+The logs must be visible.
+Before adding the link to the submission make sure you have opened the file in an "incognito" window.
+If you misrepresent your answers, you will be awarded -100% of the score.
+If you submit colab link instead of notebook uploaded on github or redirect the github page to colab, you will be awarded -50% submit details to s4 - assignment qna.
+Video gm session 4 - coding drill down how to write a dnn from to end to end.
+Code 1 - set up code 2 - basic skeleton code 3 - lighter model code 4 - batch normalization code 5 - regularization code 6 - global average pooling code 7 - increasing capacity code 8 - correct maxpooling location code 9 - image augmentation code 10 - playing naively with learning rates discipline receptive field calculations assignment in the last session, we covered a lot of basics.
+Your target was to achieve 99.4% test accuracy within 20 epochs while using less than 20k parameters.
+In this session, we'll go through 10 code iterations to help us understand how we target such a problem.
+Code 1: the setup code target: get the set-up right set transforms set data loader set basic working code set basic training & test loop results: parameters: 6.3m best training accuracy: 99.99 best test accuracy: 99.24 analysis: extremely heavy model for such a problem model is over-fitting, but we are changing our model in the next step code 2: the skeleton code target: get the basic skeleton right.
+We will try and avoid changing this skeleton as much as possible.
+No fancy stuff results: parameters: 194k best train accuracy: 99.35 best test accuracy: 99.02 analysis: the model is still large, but working.
+We see some over-fitting code 3: the lighter model code target: make the model lighter results: parameters: 1 best train accuracy: 99.00 best test accuracy: 98.98 analysis: good model!
+No over-fitting, model is capable if pushed further code 4: the batch normalization code target: add batch-norm to increase model efficiency.
+Results: parameters: 1 best train accuracy: 99.9 best test accuracy: 99.3 analysis: we have started to see over-fitting now.
+Even if the model is pushed further, it won't be able to get to 99.4 code 5: the regularization code target: add regularization, dropout results: parameters: 1 best train accuracy: 99.39 (20th epoch) & 99.47 (25th) best train accuracy: 99.30 analysis: regularization working.
+But with the current capacity, not possible to push it further.
+We are also not using gap, but depending on a big sized kernel code 6: the global average pooling code target: add gap and remove the last big kernel.
+Results: parameters: 6k best train accuracy: 99.86 best test accuracy: 98.13 analysis: adding global average pooling reduces accuracy - wrong we are comparing a 1 model with 6k model.
+Since we have reduced model capacity, a reduction in performance is expected.
+Code 7: increase the capicity code target: increase model capacity.
+Add more layers at the end.
+Result: parameters: 11.9k best train accuracy: 99.33 best test accuracy: 99.04 analysis: the model still showing over-fitting, possibly dropout is not working as expected!
+Wait yes!
+We don't know which layer is causing over-fitting.
+Adding it to a specific layer wasn't a great idea.
+Quite possibly we need to add more capacity, especially at the end.
+Closer analysis of mnist can also reveal that just at rf of 5x5 we start to see patterns forming.
+We can also increase the capacity of the model by adding a layer after gap!
+Code 8: correct maxpooling location code target: increase model capacity at the end (add layer after gap) perform maxpooling at rf=5 fix dropout, add it to each layer results: parameters: 13.8k best train accuracy: 99.39 best test accuracy: 99.41 (9th epoch) analysis: works!
+But we're not seeing 99.4 or more as often as we'd like.
+We can further improve it.
+The model is not over-fitting at all.
+Seeing image samples, we can see that we can add slight rotation.
+Code 9: image augmentation code target: add rotation, our guess is that 5-7 degrees should be sufficient.
+Results: parameters: 13.8k best train accuracy: 99.15 best test accuracy: 99.5 (18th epoch) analysis: the model is under-fitting now.
+This is fine, as we know we have made our train data harder.
+The test accuracy is also up, which means our test data had few images which had transformation difference w. R. T.
+Train dataset code 10: playing naively with learning rates code target: add lr scheduler results: parameters: 13.8k best train accuracy: 99.21 best test accuracy: 99.45 (9th epoch), 99.48 (20th epoch) analysis: finding a good lr schedule is hard.
+We have tried to make it effective by reducing lr by 10th after the 6th epoch.
+It did help in getting to 99.4 or faster, but the final accuracy is not more than 99.5.
+Possibly a good scheduler can do wonders here!
+Discipline designing models require discipline every step you take must have a purpose trying too many things without order or without any notes is useless receptive field calculations beautiful rf article on distill
+assignment assignment: your new target is: 99.4% (this must be consistently shown in your last few epochs, and not a one-time achievement) less than or equal to 15 epochs less than 10000 parameters (additional points for doing this in less than 8000 pts) do this in exactly 3 steps each file must have "target, result, analysis" text block (either at the start or the end) you must convince why have you decided that your target should be what you have decided it to be, and your analysis must be correct.
+Evaluation is highly subjective, and if you target anything out of the order, marks will be deducted.
+Explain your 3 steps using these target, results, and analysis with links to your github files (colab files moved to github).
+Keep receptive field calculations handy for each of your models.
+If your github folder structure or file_names are messy, -10hen ready, attempt session 4 -assignment solution video gm session 5 - batch normalization & regularization image normalizing in image processing, normalization is a process that changes the range of pixel intensity values.
+For example, if the intensity range of the image if 50 to 180 and the desired range is 0 to 255, the process entails subtracting 50 from each pixel intensity, making the range 0 to 13hen each pixel is multiplied by 255/130, making the range 0 to 255.
+Reference: normalizing input (lecun et al 1998 efficient backprop) why redistribution of data? Why the redistribution of data is important for us?
+Ref normalization is not equalization the normalization is quite simple, it looks for the maximum intensity pixel (we will use a grayscale example here) and a minimum intensity and then will determine a factor that scales the min intensity to black and the max intensity to white.
+This is applied to every pixel in the image which produces the final result.
+The equalize will attempt to produce a histogram with equal amounts of pixels in each intensity level.
+This can produce unrealistic images since the intensities can be radically distorted but can also produce images very similar to normalization which preserves relative levels in which the equalization process does not.
+So if you are concerned about keeping an image realistic then use normalization, but if you want a more even distribution of intensity levels then equalize can help with that.
+Source let's look at normalization working on other kinds of data.
+How to normalize? But didn't we just zero-centered our data? When your images are not zero-centered, they are not zero centered  and say are between 0-255.
+During the back-propagation, we perform dot products of these pixel values with weights.
+Multiplying large numbers would mean, a lot of computation resources, a lot of time, and most importantly, gradient explosion!
+Loss & weights with/without normalization let's think about our un-normalized kernels and how the loss function would look like: if we had normalized our kernels (indirect channels), this is how it would look like: let's look at the top view to appreciate the trouble here: un-normalized normalized
+if features are found at a similar scale, then weights would be on a similar scale, and then backprop would actually make sense, ponder!
+Why limit normalization to images only then? Batch normalization batch normalization (bn), introduced in 2015 and is now the defacto standard for all cnns and rnns.
+Old understanding: batch normalization solves a problem called the internal covariate shift.
+To understand bn we need to understand what is cs.
+Covariate means input features.
+Covariate shift means that the distribution of the features is different in different parts of the training/test data.
+Internal covariate shift refers to changes within the neural network, between layers.
+A kernel always giving out higher activation makes next layer kernels always expect this higher activation and so on.
+But this has been proven wrong lately.
+Observe the weight distribution over a training period: so what is it doing? Let's look at the variation of the value of the loss and gradient predictiveness: imagine what would happen if one channel ranges from -1 to 1 and another between -1000 to 1000 just see how it elevates a bit of a problem for us to get the right learning rates!
+Very deep nets can be trained faster and generalize better when the distribution of activations is kept normalized during backprop.
+We regularly see ultra-deep convnets like inception, highway networks, and resnet.
+And giant rnns for speech recognition, machine translation, etc.
+Explain bn to a 5-year-old!
+It reduces the dependency of the network's output on the scale of its inputs!
+This reduces overfitting!
+This allows us to train at higher learning rates!
+Rumors bn mathematics this is how we implement "batch" normalization: some crucial points: how many gammas and betas? And what do they depend on? Bias get's subtracted out in batch normalization relu before bn or bn before relu? Why position doesn't matter? Batch normalization calculates its normalization statistics over each minibatch of data separately while training but during inference a moving average of training statistics are used, simulating the expected value of the normalization statistics.
+Read this research paper: http: //proceedings. Mlr. Press/v37/ioffe15. Pdf what are sotas using today? Nlp> layer normalization vision> bn accuracy	paper	date	normalization 9	meta pseudo labels	1 march 2021	batch normalization decay/momentum 89.2%	nfnet-f4	11 feb 2021	normalization free (but is not) 88.64%	align	11 feb 2021	batch normalization 88.61%	sam	29 april 2021	batch normalization 88.55%	vit-h/14	22 oct 2020	group norm | layer norm 78.25%	resnet-101	10 dec 2015	batch normalization batch normalization decay or momentum group, instance, and layers normalization file regularization regularization is a key component in preventing overfitting.
+Also, some techniques of regularization can be used to reduce model parameters while maintaining accuracy, for example, to drive some of the parameters to zero.
+This might be desirable for reducing the model size or driving down the cost of evaluation in a mobile environment where processor power is constrained.
+Regularization effect of batch size most common techniques of regularization used nowadays in the industry: dataset augmentation an overfitting model (neural network or any other type of model) can perform better if the learning algorithm processes more training data.
+Early stopping early-stopping combats overfitting interrupting the training procedure once the models performance on a validation set gets worse.
+Dropout (what gets dropped? How does it help? What happens during inference? ) weight penalty l1 and l2 l1 and l2 are the most common types of regularization.
+These update the general cost function by adding another term known as the regularization term.
+L1 & l2 regularization l1 regularization(lasso regression) l1 regularization adds an l1 penalty equal to the absolute value of the magnitude of coefficients.
+When our input features have weights closer to zero this leads to a sparse l1 norm.
+In the sparse solution, the majority of the input features have zero weights and very few features have non-zero weights.
+Features: l1 penalizes the sum of the absolute value of weights.
+L1 has a sparse solution l1 generates a model that is simple and interpretable but cannot learn complex patterns l1 is robust to outliers l2 regularization(ridge regularization) l2 regularization is similar to l1 regularization.
+But it adds a squared magnitude of coefficient as penalty term to the loss function.
+L2 will not yield sparse models and all coefficients are shrunk by the same factor (none are eliminated like l1 regression) features: l2 regularization penalizes the sum of square weights.
+L2 has a non-sparse solution l2 regularization is able to learn complex data patterns l2 has no feature selection l2 is not robust to outliers l1/l2 in pytorch l2 l1 assignment your assignment 6 will demand these things: change your code in such a way that all of these are in their respective files: model training code testing code regularization techniques (dropout, l1, l2, etc) dataloader/transformations/image-augmentations misc items like finding misclassified images so, while doing assignment 6, please think how would you be able to do this in the next assignment your 5th assignment is: you are making 3 versions of your 4th assignment's best model (or pick one from best assignments): network with group normalization network with layer normalization network with l1 + bn you must: write a single model. Py file that includes gn/ln/bn and takes an argument to decide which normalization to include write a single notebook file to run all the 3 models above for 20 epochs each create these graphs: graph 1: test/validation loss for all 3 models together graph 2: test/validation accuracy for 3 models together graphs must have proper annotation find 10 misclassified images for each of the 3 models, and show them as a 5x2 image matrix in 3 separately annotated images.
+Write an explanatory readme file that explains: what is your code all about, how to perform the 3 normalizations techniques that we covered(cannot use values from the excel sheet shared) your findings for normalization techniques, add all your graphs your 3 collection-of-misclassified-images upload your complete assignment on github and share the link on lms video google meet session 6 - advanced concepts advanced convolutions normal convolutions pointwise convolutions concept of channels receptive fields we observe a logarithmic relationship between classification accuracy and receptive field size, which suggests that large receptive fields are necessary for high-level recognition tasks, but with diminishing rewards.
+For example, note how mobilenets achieve high recognition performance even if using a very compact architecture: with depth-wise convolutions, the receptive field is increased with a small compute footprint.
+In comparison, vgg-16 requires 27x more flops than mobilenets, but produces a smaller receptive field size; even if much more complex, vggs accuracy is only slightly better than mobilenets.
+This suggests that networks that can efficiently generate large receptive fields may enjoy enhanced recognition performance. [ref] strides & checkerboard issue how do we get 5x5 rf with one 3x3 kernel? Or atrous or dilated convolutions we get a receptive field of 3x3 when we convolve by 3x3.
+What should we do to get a receptive field of 5x5 when we convolve by 3x3? Dilated convolution increases the receptive view (global view) of the network exponentially and linear parameter accretion.
+With this purpose, it finds usage in applications cares more about integrating the knowledge of the broader context with less cost.
+The key application the dilated convolution authors have in mind is a dense prediction: vision applications where the predicted object has a similar size and structure to the input image.
+For example, panoptic/semantic segmentation with one label per pixel; image super-resolution, denoising, generative art with reference images keypoint detection or facial landmarks pose estimation and a lot more!
+What is the output above? "dense" the problem: "convolution is a rather local operation" improving the resolution of segmentation results dilated convolutions or atrous convolutions present a potential solution to this problem: they are capable of capturing global context without reducing the resolution of the segmentation map.
+Normal convolutional neural networks (cnns) are based on the fact that each convolutional layer collects information from a larger neighborhood around each pixel/voxel.
+This means that in the upper layers of the network, each pixel of a feature map could potentially hold information about a large region of the image.
+However, experiments show that during learning this is usually not the case.
+Rather, the information in each pixel stays localized [source ] and the network does not live up to its full potential.
+Dilated convolutions change the rules of the game by using kernels of the same size as normal convolutional layers but spread out over a larger area on the image.
+In many such applications, one wants to integrate information from different spatial scales and balance two properties: local, pixel-level accuracy, such as precise detection of edges, and integrating the knowledge of the wider, global context dilation how do we increase channel size after convolution or transpose convolution or deconvolution or fractionally strided convolution we have a kernel of size 3x3.
+If we convolve on 5x5 we get 3x3.
+What do we do to get 7x7? Or get a larger channel size than we started with? A simple approach, but inefficient.
+Deconvolution or transpose convolution is a better approach, but...
+It introduces the checkerboard issue:
+
+pixel shuffle we'll learn about ps algorithm to understand that we are free to manipulate the pixels the way we want!
+Nothing more, nothing less.
+Jeremy howard's explanation pixel shuffle paper depthwise separable convolution what is wrong with this convolution? Depthwize separable convolution
+for a depthwise separable convolution on the same example, we traverse the 16 channels with 1 3x3 kernel each, giving us 16 feature maps.
+Now, before merging anything, we traverse these 16 feature maps with 32 1x1 convolutions each and only then start to them add together.
+This results in 656 (16x3x3 + 16x32x1x1) parameters as opposed to the 4608 (16x32x3x3) parameters from above.
+[ref] spatially separable convolutions was used immensely in different variants of xception-inception networks as well as in mobilenets. \ grouped convolutions
+data augmentation any why we should fall in love with it!
+Relationship between data and validation accuracy data augmentation data augmentation (da) is an effective alternative to obtaining valid data, and can generate new labeled data based on existing data using "label-preserving transformations".
+Designing appropriate da policies requires a lot of expert experience and is time-consuming, and the evaluation of searching the optimal policies is costly.
+Moreover, the policies generated using da policies are usually not reusable.
+Generally, the more data, the better deep neural networks can do.
+Insufficient data can lead to model over-fitting, which will reduce the generalization performance of the model on the test set.
+Source: we find that the performance on vision tasks increases logarithmically based on the volume of training data size techniques such as: dropout batch normalization l1/l2 regularization layer normalization have been proposed to help combat over-fitting, but they will fall short if data is limited.
+What options do we have? Pmda - poor man's data augmentation strategies mmda* - middle-class man's data augmentation strategies rmda* - rich man's data augmentation strategies pmda scale; translation; rotation; blurring; image mirroring; color shifting / whitening.
+Simple stuff which most probably is in-built in pytorch.
+Mmda we have 2 beautiful libraries for mmdas: imgaug - not going to use albumentations - going to use we are going to focus on albumentations because of its easy integration with pytorch.
+Albumentations 1.1.0	imgaug 0	torchvision (pillow-simd backend) keras 2.6.0	augmentor 8	solt 9 horizontalflip	10220	2702	2517	876	2528	6798 verticalflip	4438	2141	2151	4381	2155	3659 rotate	389	283	165	28	60	367 shiftscalerotate	669	425	146	29	-	- brightness	2765	1124	411	229	408	2335 contrast	2767	1137	349	-	346	2341 brightnesscontrast	2746	629	190	-	189	1196 shiftrgb	2758	1093	-	360	-	- shifthsv	598	259	59	-	-	144 gamma	2849	-	388	-	-	933 grayscale	5219	393	723	-	1082	1309 randomcrop64	163550	2562	50159	-	42842	22260 padtosize512	3609	-	602	-	-	3097 resize512	1049	611	1066	-	1041	1017 randomsizedcrop_64_512	3224	858	1660	-	1598	2675 posterize	2789	-	-	-	-	- solarize	2761	-	-	-	-	- equalize	647	385	-	-	765	- multiply	2659	1129	-	-	-	- multiplyelementwise	111	200	-	-	-	- colorjitter	351	78	57	-	-	- it has everything you'll ever need (conditions apply) elastic distortions elastic distortions (2003) a very nice article on how to use this on bengali (or others) is here cutout cutout - 29 nov 2017 what color is that cut-out grey? What is the maximum cut-out size you can use? Why cutout? Mixup mixup 27 april 2018 mixup alpha-blends two images to construct a new training image.
+Mixup can train deep cnns on convex combinations of pairs of training samples and their labels and enables deep cnns to favor a simple linear behavior in between training samples.
+This behavior makes the prediction confidence transit linearly from one class to another class, thus providing smoother estimation and margin maximization.
+Alpha-blending not only increases the variety of training images but also works like adversarial perturbation.
+Thereby, mixup makes deep cnns robust to adversarial examples and stabilizes the training of generative adversarial networks.
+In addition, it behaves similarly to class label smoothing by mixing class labels with the ratio  : 1  .
+Ricap ricap 22 nov 2018 ricap crops four training images and patches them to construct a new training image; it selects images and determines the cropping sizes randomly, where the size of the final image is identical to that of the original image.
+Ricap also mixes class labels of the four images with ratios proportional to the areas of the four images like label smoothing [ref] in mixup.
+Compared to mixup, ricap has three clear distinctions: it mixes images spatially, it uses partial images by cropping, and it does not create features that are absent in the original dataset except for boundary patching.
+Patchgaussian patchgaussian - 6 june 2019 prior work has argued that there is an inherent trade-off between robustness and accuracy, which is exemplified by standard data augment techniques such as cutout, which improves clean accuracy but not robustness, and additive gaussian noise, which improves robustness but hurts accuracy.
+To overcome this trade-off, we introduce patch gaussian, a simple augmentation scheme that adds noise to randomly selected patches in an input image.
+Models trained with patch gaussian achieve state-of-the-art on the cifar-10 and imagenet.
+Rmdas reinforcement learning or autoaugment 24th may 2018 pros: can be applied directly on the dataset learned policies can be transferred to a new dataset achieves state-of-art for imagenet, cifar10, and cifar100 nas took cifar10 error to 2% (cannot be beaten by humans), autoaugment with nas took this number to 1.5% cons: takes 5000 p100 gpu hours for cifar and 15000 gpu hours for imagenet population based strategy - which generates nonstationary augmentation policy schedules instead of a fixed augmentation policy strategy but also a comprehensive survey of image augmentation check out here - 23 nov 2022 assignment 6 check this repo out: https: //github. Com/kuangliu/pytorch-cifar links to an external site.
+You are going to follow the same structure for your code from now on assignment 6 run this network.
+Fix the network above: change the code such that it uses gpu and change the architecture to c1c2c3c40 (no maxpooling, but 3 3x3 layers with stride of 2 instead) (if you can figure out how to use dilated kernels here instead of mp or strided convolution, then 200pts extra!
+) total rf must be more than 44 one of the layers must use depthwise separable convolution one of the layers must use dilated convolution use gap (compulsory): - add fc after gap to target #of classes (optional) use albumentation library and apply: horizontal flip shiftscalerotate coarsedropout (max_holes = 1, max_height=16px, max_width=1, min_holes = 1, min_height=16px, min_width=16px, fill_value=(mean of your dataset), mask_fill_value = none) achieve 85% accuracy, as many epochs as you want.
+Total params to be less than 200k.
+Upload to github attempt s6-assignment solution.
+Questions in the assignment qna are: copy paste your model code from your model. Py file (full code) [125] copy paste output of torchsummary [125] copy-paste the code where you implemented albumentation transformation for all three transformations [125] copy paste your training log (you must be running validation/text after each epoch [125] share the link for your readme. Md file.
+[200] videos studio version (unfortunately wrong window was captured, still uploading for better audio.
+Please refer to the gm video) session 7 - advanced training concepts class activation maps gradcam learning rates weight updates constant vs adaptive learning rates sgd gradient perturbation momentum & nesterov momentum rmsprop adam best optimizer lrs one cycle policy reduce lr on plateau what kind of minima do we want? Assignment class activation maps look at the image below.
+This was in the ricap paper where they claimed that their augmentation strategy is better as it allows the network to "see" better.
+How did they figure out what were network looking at? Above we see something called gradcam's output, one of the class activation mapping algorithms.
+Class activation maps (cams) are visualizations that highlight which regions of an input image contribute the most to the classification decision made by a deep neural network.
+They are helpful in understanding how the model is making predictions, identifying model weaknesses and biases, and debugging and improving the model's performance.
+Cams can also be used for generating more human-interpretable explanations for the predictions made by a model.
+Let's check out the library that you'd be using to see why they are useful.
+Along with above, they can also be used for further diagnostics: how do we create adversarial images? 1.
+Choose an input image and its label: start with a clean image, labeled as a specific class, which you want the network to misclassify.
+2.
+Define the loss function: the loss function should measure the difference between the predicted class and the target class, usually the opposite of the true class.
+3.
+Calculate the gradient of the loss with respect to the input image: this step is done using backpropagation and it gives information on how the loss changes as the input image are changed.
+4.
+Perturb the input image: add a small, but targeted perturbation to the input image, proportional to the gradient calculated in the previous step.
+This is done to maximize the loss and hence, change the predicted class.
+5.
+Repeat steps 3 and 4 until the desired misclassification is achieved: you may need to repeat these steps multiple times to generate a strong enough perturbation that causes the network to misclassify the image.
+6.
+Clip the pixel values of the perturbed image if needed: clipping ensures that the perturbed image remains visually similar to the original image and falls within a specified range of pixel values.
+Gradcam grad-cam algorithm for visualizing the important regions of an input image that contribute to the predictions of a vgg model can be implemented in the following steps: load the pre-trained vgg model: the first step is to load a pre-trained vgg model, which has already been trained on a large dataset.
+Load the input image: next, you would load the input image that you want to analyze.
+Inferring: run the model's forward pass to obtain the final class scores and prediction.
+Output of the last convolutional layer: extract the feature maps of the last convolutional layer before the final fully connected layers.
+Computing gradients: compute the gradients of the final class scores with respect to the feature maps.
+Pooling the gradients: pool the gradients spatially, typically by taking the average along the height and width dimensions.
+Weighing the outputs: multiply the feature maps with the pooled gradients to get the weighted feature maps.
+Averaging feature maps along channels: sum the weighted feature maps along the channel dimension to get the final activation map.
+Normalizing the heatmap: normalize the activation map to obtain the final grad-cam heatmap, which highlights the regions of the input that were important for the prediction.
+This heatmap can be overlaid on the input image to visualize the regions that were important for the model's prediction.
+Learning rates the learning rate is a hyperparameter that controls how much we are adjusting the weights of our network with respect to the loss gradient.
+The lower the value, the slower we travel along the downward slope.
+If we move slow, there is a good chance we would reach our minima, but it would take a long time to converge.
+If we move fast, we might reduce loss faster, but the minima would elude us.
+This is how we calculate loss: this is how the gradients are related to our loss function weight updates mathematically gradient is a partial derivate of the loss function w. R. T the weights.
+We use a negative gradient.
+Alpha is the learning rate.
+Let's spend some time on this and understand what that negative number does!
+Constant vs adaptive learning rates constant learning rates most widely used optimization algorithm, the stochastic gradient descent falls under this category.
+Here  is called a "learning rate" which is a hyperparameter and has to be tuned.
+Small  is a snail and large is a missile.
+We need to find the correct one.
+We can improve this situation through momentum (covered later).
+Adaptive learning rates adaptive gradient descent algorithms such as adagrad, adadelta, rmsprop, and adam, provide an alternative to classical sgd.
+Gradient descent: calculates the gradient for the whole dataset and updates in a direction opposite to the gradients until we find local minima.
+Stochastic gradient descent performs a parameter update for each batch instead of the whole dataset.
+This is much faster and can be further improved through momentum and learning rate finder.
+Adagrad is more preferable for a sparse data set as it makes big updates for infrequent parameters and small updates for frequent parameters.
+It uses a different learning rate for each parameter at a time step based on the past gradients which were computed for that parameter.
+Thus we do not need to manually tune the learning rate.
+Adam stands for adaptive moment estimation.
+It also calculates a different learning rate.
+Adam works well in practice, is faster and outperforms other techniques*.
+Source sgd or stochastic gradient descent sgd refers to an algorithm that operates on a batch size equal to 1, while mini-batch gradient descent is adopted when the batch size is greater than 1.
+We will refer to mbgd as sgd.
+Let us assume our loss function for a single sample is: where x is the input sample, y is the label, and  is the weight.
+We can define the partial derivative cost function for a batch size equal to n as: the vanilla sgd algorithm is based on a  update rule that must move the weights in the opposite direction of the gradient of l.
+This process is represented in the following figure:  is the learning rate, while start is the initial point and opt is the global minimum were looking for.
+Iteration	w1	w2	historic loss	learning rate 1	4.0	1.0	2	3.9	3	3.8	4	3.7	5	3.6	in a standard optimization problem, without particular requirements, the algorithm converges in a limited number of iterations.
+Unfortunately, the reality is a little bit different, in particular in deep models, where the number of parameters is in the order of ten or one hundred million.
+When the system is relatively shallow, its easier to find local minima where the training process can stop, while in deeper models, the probability of a local minimum becomes smaller and, instead, saddle points become more and more likely.
+Saddle point is a point at which a function of two variables has partial derivatives equal to zero but at which the function has neither a maximum nor a minimum value.
+How often do you think they occur? Then there is a problematic condition called plateaus, where l() is almost flat in a very wide region.
+How do we fix these problems? Gradient perturbation a very simple approach to the problem of plateaus is adding a small noisy term (gaussian noise) to the gradient: the variance should be carefully chosen (for example, it could decay exponentially during the epochs).
+However, this method can be a very simple and effective solution to allow movement even in regions where the gradient is close to zero.
+I would say we are indirectly doing this already.
+We have discussed doing this in two ways, what are those? Momentum & nesterov momentum it is never a good idea to interfere with the network, and in the previous approach, we are doing exactly that.
+A more robust solution is provided by introducing an exponentially weighted moving average for the gradients.
+The idea is very intuitive: instead of considering only the current gradient, we can attach part of its history to the correction factor, so as to avoid an abrupt change when the surface becomes flat.
+The momentum algorithm is, therefore: the first equation computes the correction factor considering the weight .
+If  is small, the previous gradients are soon discarded.
+If, instead,   1, their effect continues for a longer time.
+A common value in many applications is between  and , however, its important to consider  as a hyperparameter to adjust in every application.
+The second term performs the parameter update.
+In the following figure, theres a vectorial representation of a momentum step: a slightly different variation is provided by the nesterov momentum.
+Source the difference with the base algorithm is that we first apply the correction with the current factor v(t) to determine the gradient and then compute v(t+1) and correct the parameters: mathematically awesome, but in deep learning contexts, nesterov doesn't seem to produce awesome results.
+Rmsprop this algorithm, proposed by g.
+Hinton, is based on the idea to adapt the correction factor for each parameter, so as to increase the effect on slowly-changing parameters and reduce it when their change magnitude is very large.
+This approach can dramatically improve the performance of a deep network, but its a little bit more expensive than momentum because we need to compute a speed term for each parameter rmsprop is a gradient-based optimization algorithm that adjusts the learning rate for each weight based on an exponential moving average of the historical squared gradients, and a scaling factor based on the square root of the moving average.
+In simpler terms, rmsprop adjusts the learning rate dynamically for each parameter in the model, instead of using a fixed learning rate for all parameters.
+It does this by dividing the learning rate by an exponentially decaying average of the squared gradients for each parameter.
+This helps to avoid oscillation or divergence in the optimization process, and allows the model to converge faster and more accurately.
+The main idea behind rmsprop is to shrink the learning rate for parameters that have a high historical gradient magnitude, while keeping the learning rate high for parameters that have a low gradient magnitude.
+This allows the optimization process to make larger updates for parameters that have a low gradient magnitude and smaller updates for parameters with a high gradient magnitude, leading to faster convergence.
+This term computes the exponentially weighted moving average of the gradient squared (element-wise).
+ Is the learning rate and  is a small constant (~ 1e-6  1e-5) introduced to avoid a division by zero when the speed is null.
+ As its possible to see, each parameter is updated with a rule that is very similar to the vanilla stochastic gradient descent, but the actual learning rate is adjusted per single parameter using the reciprocal of the square root of the relative speed.
+Its easy to understand that large gradients determine large speeds and, adaptively, the corresponding update is smaller and vice-versa.
+Rmsprop is a very powerful and flexible algorithm and it is widely used in deep reinforcement learning, cnn, and rnn-based projects.
+Iteration	w1	w2	historic loss	learning rate w1	learning rate w2 1	4.0	1.0	2	3.5		 3	3.0		 4	2.5		 5	2.0		 adam adam is an adaptive algorithm that could be considered as an extension of rmsprop.
+Instead of considering the only exponentially weighted moving average of the gradient square, it computes also the same value for the gradient itself: 1 and 2 are forgetting factors like in the other algorithms.
+The authors suggest values greater than 
+As both terms are moving estimations of the first and the second moment, they can be biased (see this article for further information).
+Adam provided a bias correction for both terms: the parameter update rule becomes: iteration	w1	w2	historic loss	learning rate w1	learning rate w2 1	4.0	1.0	2	3.7		 3	3.4		 4	3.1		 5	2.8		 adam and rmsprop are both gradient-based optimization algorithms that dynamically adapt the learning rate for each weight during the optimization process.
+However, they differ in how they estimate the mean and variance of the gradients, and in how they use this information to adjust the learning rates.
+Rmsprop estimates the mean and variance of the gradients by computing an exponential moving average of the squared gradients.
+The learning rate for each weight is then computed using a decay term that controls the decay rate of the historical moving average, and a scaling factor that is based on the square root of the moving average.
+In contrast, adam uses a different technique to estimate the mean and variance of the gradients.
+It computes an exponential moving average of the gradients and another exponential moving average of the squared gradients.
+The learning rate for each weight is then computed using these two moving averages, as well as two decay terms that control the decay rate of the moving averages.
+Then we have adagrad and adadelta.
+Full source best optimizer
+please note that the above image does not compare adam.
+Here are some of the execution results:
+adam and others are better than sgd/sgd+.
+Although adaptive optimizers have better training performance, it does not imply higher accuracy (better generalization) some common observations: adam and others generally have the lowest training error/loss, but not validation error/loss it is common to use sgds for sota performance.
+Resnet (2015) - sgd densenet (2016) - sgd resnext (2016) - sgd se-net (2017) - sgd nasnet (2018) - sgd bert (2018) - adam efficientnet (2019) - rmsprop gpt-3 (2020) - adamw regnet (2020) - adamw vit (2021) - adamw adam and others are preferred for gans and q-learning with function approximations sgd needs lesser memory since it only needs the first momentum it has a much better regularization property compared to adam (this can be fixed, see e. G fixing weight decay regularization in adam ) if your input data is sparse you are likely to achieve the best results using one of the adaptive learning-date methods.
+Completely different approach don't decay the learning rate, increase the batch size!
+Batch size and learning rate are hyperparameters that affect the training of deep neural networks, but they are independent of each other and their relationship depends on the specific problem and architecture being used.
+A larger batch size generally requires a smaller learning rate, while a smaller batch size requires a larger learning rate.
+The optimal values for these hyperparameters can be found through experimentation and trial-and-error.
+A larger batch size can provide more information per iteration and therefore a more stable gradients estimate, allowing the model to converge using a smaller learning rate.
+A smaller learning rate would help prevent overshooting of the optima, as a larger batch size provides a more robust update step, so the learning rate can afford to be smaller.
+Conversely, a smaller batch size provides a less stable gradients estimate, and therefore requires a larger learning rate to prevent oscillation or divergence during training.
+Learning rates for all the above methods, we still need to find the learning rate.
+Source: andrew ng starting with a large learning rate at the beginning of training is important because the random weights are far from the optimal values.
+With a large learning rate, the weight updates will be large, allowing the model to quickly move toward the optimal weights.
+However, as the weights approach the optimal values, the model's improvement in accuracy slows down.
+At this point, a smaller learning rate is used to make smaller and more fine-grained weight updates, allowing the model to converge to the optimal weights more accurately.
+Using a large learning rate in the beginning of training also helps to escape from any poor local minima, while using a smaller learning rate later in training helps to converge to a global minimum with high accuracy.
+The schedule for decreasing the learning rate during training is called a learning rate schedule, and there are several commonly used schedules such as step decay, time decay, and cyclical learning rate schedules.
+The exact schedule to be used depends on the specific problem and the model being used.
+We can naively try different values or try a smarter way.
+Leslie n.
+Smith describes a powerful technique to select a range of learning rates for a neural network in section 3.3 of the 2015 paper cyclical learning rates for training neural networks.
+The trick is to train a network starting from a low learning rate and increase the learning rate exponentially for every batch.
+Implementing the one-cycle policy involves the following steps: define the maximum learning rate: the maximum learning rate is the highest learning rate that will be used during training.
+It should be set to a value that is high enough to allow for significant weight updates, but not so high that the model becomes unstable.
+The process of finding the maximum learning rate usually involves the following steps: choose a range of learning rates: choose a range of learning rates that covers the range of possible learning rates, starting from a very small value (e. G. , ) and increasing to a large value (e. G. , 10).
+Train the model with each learning rate: for each learning rate in the range, train the model for one or a few epochs and track the training loss after each batch.
+Plot the learning rate vs training loss: plot the learning rate on the x-axis and the training loss on the y-axis.
+This will show how the training loss changes with different learning rates.
+Find the maximum learning rate: the maximum learning rate is the learning rate that gives the largest decrease in the training loss, or the steepest slope in the learning rate vs training loss plot.
+First, with low learning rates, the loss improves slowly, then training accelerates until the learning rate becomes too large and loss goes up: the training process diverges.
+We need to select a point on the graph with the fastest decrease in the loss.
+In this example, the loss function decreases fast when the learning rate is between 1 and .
+Define the learning rate schedule: the learning rate schedule is a function that maps the number of training iterations to a learning rate value.
+The schedule should start at a low learning rate, gradually increase to the maximum learning rate, and then gradually decrease back to the low learning rate implement the learning rate schedule: in the training loop, use the learning rate schedule to determine the learning rate for each iteration.
+The learning rate should be updated at each iteration, based on the current iteration number and the learning rate schedule train the model: use the learning rate schedule to train the model, updating the weights at each iteration based on the current learning rate monitor the model performance: monitor the model performance during training, including accuracy, loss, and any other relevant metrics.
+If the performance is not satisfactory, adjust the maximum learning rate, the learning rate schedule, or the model architecture as necessary.
+Reduce lr on plateau the "patience" and "threshold" parameters in the reducelronplateau algorithm control how the learning rate is adjusted based on the validation loss.
+"patience" refers to the number of epochs to wait before decreasing the learning rate if the validation loss has not improved.
+For example, if the patience value is set to 5, the learning rate will only be decreased if the validation loss has not improved for 5 epochs.
+"threshold" refers to the magnitude by which the validation loss should improve in order to consider it an improvement.
+For example, if the threshold value is set to , the validation loss should decrease by at least  to be considered an improvement.
+These are not yet easy to pick by the way.
+For example, you really need to understand the difference between rel vs abs threshold_mode.
+What kind of minima do we want? The rationale is that increasing the learning rate will force the model to jump to a different part of the weight space if the current area is spikey.
+Below is a picture of three same minima with different opening widths (or robustness).
+Which minima would you prefer? Assignment assignment: check this repo out: https: //github. Com/kuangliu/pytorch-cifar links to an external site.
+You are going to follow the same structure for your code from now on.
+So create: models folder - this is where you'll add all of your future models.
+Copy resnet. Py into this folder, this file should only have resnet 18/34 models.
+Delete bottleneck class main. Py - from google colab, now onwards, this is the file that you'll import (along with the model).
+Your main file shall be able to take these params or you should be able to pull functions from it and then perform operations, like (including but not limited to): training and test loops data split between test and train epochs batch size which optimizer to run do we run a scheduler? Utils. Py file (or a folder later on when it expands) - this is where you will add all of your utilities like: image transforms, gradcam, misclassification code, tensorboard related stuff advanced training policies, etc etc name this main repos something, and don't call it assignment 7.
+This is what you'll import for all the rest of the assignments.
+Add a proper readme describing all the files.
+Your assignment is to build the above training structure.
+Train resnet18 on cifar10 for 20 epochs.
+The assignment must: pull your github code to google colab (don't copy-paste code) prove that you are following the above structure that the code in your google collab notebook is nothing..
+Barely anything.
+There should not be any function or class that you can define in your google colab notebook.
+Everything must be imported from all of your other files your colab file must: train resnet18 for 20 epochs on the cifar10 dataset show loss curves for test and train datasets show a gallery of 10 misclassified images show gradcam output on 10 misclassified images.
+Remember if you are applying gradcam on a channel that is less than 5px, then please don't bother to submit the assignment.
+ Once done, upload the code to github, and share the code.
+This readme must link to the main repo so we can read your file structure.
+Train for 20 epochs get 10 misclassified images get 10 gradcam outputs on any misclassified images (remember that you must use the library we discussed in the class) apply these transforms while training: randomcrop(32, padding=4) cutout(16x16) assignment submission questions: share the complete code of your model. Py share the complete code of your utils. Py share the complete code of your main. Py copy-paste the training log (cannot be ugly) copy-paste the 10/20 misclassified images gallery copy-paste the 10/20 gradcam outputs gallery share the link to your main repo share the link to your readme of assignment 7 (cannot be in the main repo, but assignment 8 repo) from the next session we'll start planning about the capstone project.
+Videos studio video gm video session 8 - handson & resnets an higher receptive fields session 6 handson let's solve the session 6 assignment.
+This link was the colab file we worked on in the class.
+Let's go deeper there is a general trend in going deeper as years are passing by!
+But when we add more layers, though we still keep 3 transformation blocks, still, we add a lot of receptive field!
+Way beyond the size of the image or the object sizes in it!
+What was receptive field again? The receptive field in a deep neural network (dnn) refers to the portion of the input space that a particular neuron is "sensitive" to, or in other words, the region of the input that influences the neuron's output.
+In convolutional neural networks (cnns), the receptive field is determined by the spatial extent of the filters and the strides of the convolutional operations.
+Larger receptive fields lead to neurons that have a wider field of view, allowing them to capture more complex relationships in the input data.
+Rf more than the size of the image!
+Let's look at some questions what receptive field value do we actually need? This is linked to the size of the objects: we want to be able to identify the smallest and the largest dog.
+A very high rf will be able to capture the large dog, but completely miss out the smaller one, and vice versa!
+Sometimes the images might not be able to cover the whole objects as well!
+But the missing parts of these dogs might be availalbe/guessed from other images!
+Most times, there are just too many variants (shape/size/structure) of the same objects so we need to handle different sizes and variants hence a large receptive field that can hold different variants as a template
+vgg architecture
+vgg was an was an audacious attempt in going deeper.
+Bn wasn't invented, so they couldn't go deeper, but deep enough to be 2nd in the islrvc competition.
+But, vgg has 1 receptive field, not many many receptive fields but this is where the "group" concept we covered in the last session comes into play.
+Let's look at inception block
+isn't it wonderful how this simple architecture allows us to target many receptive fields!
+Beyond image size receptive fields but what happens when we increase our receptive field, how do they "look" or what are they looking for? Well, this is how data looks like: varied in size, different but sometimes semantic backgrounds.
+When we target higher receptive fields our target become edges >> textures >> patterns >> parts >> objects >> o object templates capture the same object in different sizes and with different backgrounds!
+Change in "current views" as we do down the layers but it is even more interesting to see what happens on the micro level at each layer!
+Let's start with this cute image: after a few conv layers before we proceed, what exactly are we looking at above? After a few more conv layers after even move conv layers after a few more conv layers, but now we are getting closer to softmax and closer to softmax inception inception v1 salient parts in the image can have an extremely large variation in size.
+For instance, an image with a dog can be either of the following, as shown below.
+The area occupied by the dog is different in each image.
+Because of this huge variation in the location of the information, choosing the right kernel size for the convolution operation becomes tough.
+A larger kernel is preferred for information that is distributed more globally, and a smaller kernel is preferred for information that is distributed more locally.
+Very deep networks are prone to overfitting.
+It is also hard to pass gradient updates through the entire network naively stacking large convolution operations is computationally expensive.
+Inception v1 solves this through: with multiple sized filters operating on the same level going wider to capture different grf contexts not using addition, but concatenation to make sure grf links are maintained till the softmax layer but this was expensive (think of the next 3x3s, 5x5s which would now need a large number of channels to properly convolve).
+To make it cheaper, the authors limit the number of input channels by adding an extra 1x1 convolution before the 3x3 and 5x5 convolutions.
+Googlenet has 9 such inception modules stacked linearly.
+It is 22 layers deep (27, including the pooling layers).
+It uses global average pooling at the end of the last inception module.
+It is a pretty deep classifier.
+As with any very deep network, it is subject to the vanishing gradient problem.
+To prevent the middle part of the network from dying out, the authors introduced two auxiliary classifiers (the purple boxes in the image).
+They essentially applied softmax to the outputs of two of the inception modules and computed an auxiliary loss over the same labels.
+The total loss function is a weighted sum of the auxiliary loss and the real loss.
+The weight value used in the paper was for each auxiliary loss.
+Auxiliary loss is purely used for training purposes and is ignored during inference.
+# the total loss used by the inception net during training.
+Total_loss = real_loss + * aux_loss_1 + * aux_loss_2 inception v2 & v3 inception v2 and inception v3 were presented in the same paper.
+The authors proposed a number of upgrades which increased the accuracy and reduced the computational complexity.
+Inception v2 explores the following: using smart factorization methods, convolutions can be made more efficient in terms of computational complexity.
+Factorize 5x5 convolution to two 3x3 convolution operations to improve computational speed.
+5x5 convolution is 2.78 times more expensive than a 3x3 convolution.
+So stacking two 3x3 convolutions in fact leads to a boost in performance.
+This is illustrated in the below image inception is not designed by humans any more and google has been using rl agents to design even weirder but powerful inception models.
+Inception has since fallen back in its acceptance and usability.
+At tsai too, we will not be working with inception, however, you're allowed to do any assignment (unless asked specifically to work with resnet) with inception.
+Resnet v1 & v2 since alexnet, the state-of-the-art cnn architecture is going deeper and deeper.
+While alexnet had only 5 convolutional layers, the vgg network and googlenet (also codenamed inception_v1) had 19 and 22 layers respectively.
+However, increasing network depth does not work by simply stacking layers together.
+Deep networks are hard to train because of the notorious vanishing gradient problem  as the gradient is back-propagated to earlier layers, repeated multiplication may make the gradient infinitely small.
+As a result, as the network goes deeper, its performance gets saturated or even starts degrading rapidly.
+Before resnet after resnet the authors of the resnet paper argue, that the stacking layers shouldn't degrade the network performance, because we could simply stack identity mappings (layers that don't do anything) upon the current network, and the resulting architecture would perform the same.
+This indicates that the deeper model should not produce a training error higher than its shallower counterparts.
+If you think about it, resnet can be considered as an ensemble of smaller networks!
+Where is the residue? But why call it residual? Where is the residue? Its time we let the mathematicians within us to come to the surface.
+Let us consider a neural network block, whose input is x and we would like to learn the true distribution h(x).
+Let us denote the difference (or the residual) between this as rearranging it, we get, the core idea the core idea of resnet is introducing a so-called identity shortcut connection that skips one or more layers.
+A residual block is displayed as the following: the residual unit obtains f(x) by processing x with two weight layers.
+Then it adds x to f(x) to obtain h(x).
+For resnet, there are two kinds of residual connections: the identity shortcuts (x) can be directly added with the input and output are of the same dimensions when the dimensions change (input is larger than residual output, but we need to add them).
+The default way of solving this is to use a 1x1 conv with a stride of 2.
+Yes, half of the pixels will be ignored.
+Francois chollet, author of keras .
+He says: they do this because it's what you should be doing.
+Residual connections with different shapes should be handled via a learned linear transformation between the two tensors, e. G.
+A 1x1 convolution with appropriate strides and border_mode, or for dense layers, just matrix multiplication.
+Resnet model walkthrough resnet34 r18 - regular - 2, 2, 2, 2 r34 - regular - 3, 4, 6, 3 we'll go through resnet34.
+It has 1 convolution layer of 7x7 sized kernel (64), with a stride of 2 it is followed by maxpooling.
+In fact, resnet has only 1 maxpooling operation!
+It is followed by 4 resnet blocks (config: 3, 4, 6, 3) the channels are constant in each block (64, 128, 256, 512 respectively).
+Each block has only 3x3 kernels.
+The channel size is constant in each block except for the first block, each block starts with a 3x3 kernel of stride 2 (this handles maxpooling) the dotted lines are 1x1 convs with stride 2 sidenote: the accuracy of convolutional networks evaluated on imagenet is vastly underestimated.
+We find that when the mistakes of the model as assessed by human subjects and considered correct when four out of five humans agree with the model's prediction, the top-1 error of a resnet-101trained on imagenet...
+Decreases from 22.69% to 9.47%.
+Similarly, the top-5 error decreases from 6.44% to 1.94%.
+(this is true for other models as well).
+Ref resnet bottleneck blocks deeper non-bottleneck resnets also gain accuracy from increasing depth, but are not as economical as the bottleneck resnets.
+So the usage of bottleneck designs is mainly due to practical considerations.
+R18 - regular - 2, 2, 2, 2 r34 - regular - 3, 4, 6, 3 r50 - bottleneck - 3, 4, 6, 3 r101 - bottleneck - 3, 4, 23, 3 r152 - bottleneck - 3, 8, 36, 3 resnet v3 aggregated transformations we'll limit ourselves to resnet v1 or v2 .
+One cycle policy in the paper  a disciplined approach to neural network hyper-parameters: part 1  learning rate, batch size, momentum, and weight decay  , leslie smith describes the approach to set hyper-parameters(namely learning rate, momentum and weight decay) and batch size.
+In particular, he suggests 1 cycle policy to apply learning rates.
+The author recommends doing one cycle of learning rate of 2 steps of equal length.
+We choose the maximum learning rate using a range test.
+We use a lower learning rate as 1/5th or 1/10th of the maximum learning rate.
+We go from a lower learning rate to a higher learning rate in step 1 and back to a lower learning rate in step 2.
+We pick this cycle length slightly lesser than the total number of epochs to be trained.
+And in the last remaining iterations, we annihilate the learning rate way below the lower learning rate value(1/10 th or 1/100 th).
+The motivation behind this is that, during the middle of learning when the learning rate is higher, the learning rate works as a regularization method and keep the network from overfitting.
+This helps the network to avoid steep areas of loss and land better flatter minima.
+As in the figure, we start at a learning rate  and make a step of 41 epochs to reach a learning rate of  then make another step of 41 epochs where we go back to a learning rate .
+Then we make another 13 epochs to reach 1/10th of lower learning rate bound().
+With clr , batch size 512, momentum and resnet-56 , we got ~91.30% accuracy in 95 epochs on cifar-1omentum and learning rate are closely related.
+It can be seen in the weight update equation for sgd that the momentum has a similar impact as the learning rate on weight updates.
+The author found in their experiments that reducing the momentum when the learning rate is increasing gives better results.
+This supports the intuition that in that part of the training, we want the sgd to quickly go in new directions to find a better minima, so the new gradients need to be given more weight.
+In practice, we choose 2 values for momentum.
+As in one cycle, we do 2 step cycle of momentum, wherein step 1 we reduce momentum from higher to lower bound, and in step 2 we increase momentum from lower to higher bound.
+According to the paper, this cyclic momentum gives the same final results, but this saves time and effort of running multiple full cycles with different momentum values.
+With one cycle policy and cyclic momentum, i could replicate the results mentioned in the paper.
+Where the model achieved 91.54% accuracy in 9310 iterations while using one cycle with learning rates and momentum  with resnet-56 and batch size of 512, while without clr it requires around 64k iterations to achieve this accuracy.
+( paper achieved 92.0  accuracies) .
+Does it provide us higher accuracy in practice? No assignment write a custom resnet architecture for cifar10 that has the following architecture: preplayer - conv 3x3 s1, p1) >> bn >> relu [64k] layer1 - x = conv 3x3 (s1, p1) >> maxpool2d >> bn >> relu [128k] r1 = resblock( (conv-bn-relu-conv-bn-relu))(x) [128k] add(x, r1) layer 2 - conv 3x3 [256k] maxpooling2d bn relu layer 3 - x = conv 3x3 (s1, p1) >> maxpool2d >> bn >> relu [512k] r2 = resblock( (conv-bn-relu-conv-bn-relu))(x) [512k] add(x, r2) maxpooling with kernel size 4 fc layer softmax uses one cycle policy such that: total epochs = 24 max at epoch = 5 lrmin = find lrmax = find no annihilation uses this transform -randomcrop 32, 32 (after padding of 4) >> fliplr >> followed by cutout(8, 8) batch size = 512 target accuracy: 90% (93.8% quadruple scores).
+No score if your code is not modular.
+Your collab must be importing your github package, and then just running the model.
+I should be able to find the custom_resnet. Py model in your github repo that you'd be training.
+Once done, proceed to answer the assignment-solution page.
+Video studio gm session 9 - dawn of transformers - part i transformer models have recently demonstrated exemplary performance on a broad range of language tasks, e. G.
+Text classification, machine translation, and question answering.
+Among these models, the most popular ones include: bert - bidirectional encoder representations from transformers gpt- generative pre-trained transformers v1-3 roberta - robustly optimized bert pre-training, and t5 - text-to-text transfer transformer.
+Transformer models: an introduction and catalog (feb 12, 2023) the profound impact of transformer models has become more clear with their scalability to very large capacity models (gpt3).
+The latest google mixture-of-experts switch transformer scales up to a whopping 1.6 trillion parameters!
+The breakthroughs from transformer networks in the nlp domain have sparked great interest in the computer vision community to adapt these models for vision and multi-modal learning tasks, and it seems like farewell convolutions!
+Coca: contrastive captioners are image-text foundation models visual data follows spatial and temporal structures, so it was challenging to apply transformers to vision.
+But they have been successfully applied to: image recognition - 1, 2 object detection - 1, 2 segmentation - 1 image super-resolution - 1 video understanding - 1, 2 image generation - 1 test-image synthesis - 1 visual question answering - 1, 2 transgan!
+Stable diffusion [1]: most of these transformer architectures are based on the self-attention mechanism that learns the relationships between elements of a sequence.
+Before jumping on to self-attention, let's look at an overview of vision transformers vision transformer the vision transformer treats an input image as a sequence of patches.
+How the vit works in a nutshell: split the image into patches (16x16) flatten the patches produce lower-dimensional linear embeddings from the flattened patches add positional embeddings (so patches can retain their positional information) feed the sequence as an input to a standard transformer encoder pre-train the model with image labels (fully supervised on a huge dataset) finetune on the downstream dataset for image classification.
+Original huge vit was  parameters.
+On 10th feb, google released a 22b parameter version!
+Pre-foundation before we even start at the foundation of transformers, there are a few things that we need to focus on: full context aggregation vs selective context aggregation making 1d or fc layers better embeddings mutation of embeddings or context clean-up context aggregation we have seen this image 100s of times now.
+Whenever we are convolving over a spot, we are aggregating information from a channel.
+Above we can see only 1 channel.
+Below we can see multichannel convolution (the default) now imagine that we have a kernel that is convolving to extract a cat's face.
+Is there a way that we can control this kernel somehow? Can we ask it to just extract: the color of the cat's face? The texture on the face? Just the whiskers? Or just the eyes? Now one would say that some kernel somewhere has this information, but that's not the question.
+Question is, can we control what the kernel extract after it has learned to extract? The answer is no and yes.
+No, because once a kernel has learned, we can't change what it does.
+Yes, because, there can be another kernel/function/fc layer that can be made to learn to just only a specific kind of data from what this kernel provides.
+We'll call this attention soon.
+So a kernel or an fc layer "aggregates the full context".
+For a finer control to filter the information provided, we need another network that can allow us to aggregate only selected or required context.
+Now, 2d channels are really good at storing spatial information, and 1d sucks at that.
+Making 1d or fc channels better we have discussed in detail earlier how can we make 1d channels or fc layers better at storing spatial information.
+Let's revise in full: start of recap this is how fully connected layers look like: what digit do you think this pattern represents? This is what it actually represents.
+The process which converts our 2d data into 1d is shown below: as you can see we lose spatial information when we use fully connected layers.
+What if we can add this information back? We have tried to add this information back in a linear fashion, but that didn't result in huge improvements and wasn't researched further for longer.
+More ideas on position encoding the above one was definitely an improvement (for images), but why do you think this data representation should cause an improvement? For representing 1 data point, we are now using 2 dimensions.
+This is a general trend that we'll see.
+The more dimensions that we use, the better the representation is but how much can we really go? Then came, better positional encodings (all of this is what we'll cover in future segments, but is here to remind you why fc layers are still relevant) above by the way is a human representation of how pe should be designed.
+For vit, our position embeddings would look something like this: end of recap fc layers with position encoding are really amazing and far better at storing context.
+One main reason for this is, in the fc layer, each neuron has full rf!
+So to use transformers or fc layers with images, we have two strategies.
+1.
+Our models will have convolution layers, that would extract everything till the object (block 4), and then we'll add transformers on top.
+The moment we finish our layer 4 (excluding the gap or 1x1 layers to convert channels to #of classes), we'll have something like 512 channels.
+2.
+We divide our images into 16x16x3 blocks, convolved them with 16x16x3xn kernels, and send them directly to the transformer architecture (most used strategy), fo a fully fc strategy.
+Embeddings embeddings are basically high-dimensional data represented in low-dimensional data.
+So, crudely, every channel in a cnn is an embedding, but the last ones are the useful ones for us.
+Remember we discussed 2 parts to our transformer strategy for images? Well, even text has the same 2 steps.
+We'll calculate embedding separately, and then add a transformer block on top as the second phase.
+What are word embeddings? There used to be days when a word was just a number (scalar) in a sorted dictionary list.
+Then someone thought, what if we can add dimensions to each word.
+Imagine something like this (the top section in the image below): but it would be better if we let ai/ml/data decide what these columns should mean.
+Suddenly differences in embeddings would also be useful!
+But still, in between, there was a time when it was statistically determined, like in glove and they went up to 300d!
+The embedding dimension for gpt models is 768.
+That means each word in the dictionary (say with 300k words) has 768 floating point numbers that define it!
+Now, we can't just work with 300k images.
+We have infinite images!
+So in the case of images, we train a really good cnn model (resnet) on all possible images, work the output of the last layer for an image, and call this output the embedding of that image!
+What would happen if we just take the final layer output of mnist (embeddings) and try and cluster them using one of the best clustering algorithms? Now that we understand embeddings, let's move to its mutation!
+Mutation of embeddings or contact cleanup every word that we write has some hint on whether we write with a left or right slant (look at this bs image below): its stored somewhere in the embeddings of each mnist character.
+If we want to know if a dog is a lab, german shepherd, golden retriever, or poodle, it's somewhere there in the dog's image's embeddings.
+If we want to know if the vehicle is a truck or a car or a bus, it's there in its embeddings.
+If we want to know if a face is smiling, angry, male, female, asian, or old, it's there in its embeddings.
+How do we extract this information, or how do we clean up the context? First, we need to realize full embedding is a mixture of all available contexts.
+So if we can somehow "weight" these dimensions/channels, we can extract just that embeddings? You already did that in gradcam!
+: ) in the case of gradcam, we know what we wanted.
+We got this scaling array by the algorithm we picked.
+But in the case of advanced problems (like image in-painting for instance) we can't be finding all the channels for all the object types and tell the network what to do.
+Or in the case of text-to-image, go find the image of the subject, and then find the channels that describe the style of the painter and make the image below: in the 2 strategies we learned above, our image embeddings are already a 1d sequence.
+So essentially we need to find a matrix that we can multiply with our sequence and clean up the context, just like in the text!
+To re-emphasize again, this is what we are looking for: i want to know from my partners who am i.
+There are 3 matrices in this sentence's solution.
+First, a query matrix that allows me to ask the question second, a key matrix that has all the answers.
+Third, the value matrix, that becomes the new me!
+In its pure mathematical form, this is how it will look like: the last matrix on top is called the attention matrix (we'll be adding softmax to it soon) and can be visualized as: in this image here: you are looking at massive parallelization as well.
+We are looking at each word about itself from the other 9 remaining words.
+Solution? Matrix multiplication!
+Each word would go through a linear layer to become a query, and another one to become a key.
+We apply matrix multiplication between them to get the relationship (attention matrix).
+For 1 single work, this matrix may look like this: 33 98 68 15 10 65 13 47 38 07 after sm.
+The highest correlation is of-course with itself.
+Then we take all the words and convert them into "values" that we would like to use.
+Again a contextual extraction.
+Finally, multiply the above values by these values and then add them to "my" new definition.
+This is what our model would look like: source in action: in the case of the text, remember our example "i went to the bank to withdraw money, that was next to a banking road and left to the bank of a river".
+In this case for the word bank, out matrix would learn from the words next to it what to clean up.
+This is sort of knowing who am i based on the words that are next to me.
+Or self-realization or self attention!
+Then there are translation tasks, where while decoding the translated text i need to translate based on some other context, that might be coming in from an instruction, that was encoded.
+This kind of attention is called encoder-decoder attention or cross attention.
+Now we are also going to leverage the concept of channels because that allows for parallelization, and kernel-type specialization, so the attention algorithms will have multiple channels or heads (we don't call these channels because that will void someone's glory of introducing complexity and make things easier to understand) foundation there exist two key ideas that have contributed to the development of transformer models.
+(a) the first one is self-attention, which allows capturing 'long-term' information and dependencies between sequence elements.
+(b).
+The second key idea is that of pre-training on a large (un) labeled corpus in a (un)supervised manner, and subsequently fine-tuning to the target task with a small labeled dataset.
+Let's look at these background foundational concepts to better understand the forthcoming transformer based models used in the computer vision domain.
+Self attention the self-attention mechanism is an integral component of transformers, which explicitly models the interaction between all entities of a sequence for structured prediction tasks.
+In the image above, the origin patch is learning from others who it is!
+The power of convolution was in aggregating the immediate (9-pixels and based on receptive field, a lot more pixels) pixels/data points together.
+In self-attention, we have (theoretically) no limit, and are free to aggregate information from wherever we want!
+The core concept (that you might also find confusing) is of keys, queries, and values.
+The key/query/value formulation of attention is from the paper attention is all you need.
+Remember this image? This is from some other paper, but very similar to our gradcam understanding.
+Here you can see that we "somehow" have a query or "context" vector that we multiply with all the data/context we had or keys" and then get exactly what we wanted or "values" this kqv is going to be confusing, so a quick hack is to remember: key = everything query = what we want.
+From matmul of key and query, we get a vector that we can multiply with "everything" to get what the result, so value = everything again.
+This is for self attention as shown below: in cross attention, the query would come from the "what to translate next" or "decoder" network.
+Below is an example of a "self-attention" block used in the vision domain
+let's consider an image of 64x64 pixels.
+Let's divide it into 16x16 blocks.
+We now have 16 blocks.
+Let's denote these blocks of sequences of 16 entities () by x.
+The goal of self-attention is to capture the interaction amongst all 16 entities by encoding each entity in terms of global contextual information.
+This is done by defining three convolutional layers of 1x1 (learnable weight matrices ) to transform our entities into: queries: keys: values: the output of the self-attention layer is then given by: for a given entity (16x16 block) in the sequence, the self-attention basically computed the dot product of the query with all keys, which is then normalized using the softmax operator to get the attention scores.
+Each entity then becomes the weighted sum of all entities in the sequence, where weights are given by the attention scores.
+Multi-head attention or channels in attention now, what kind of relationships would self-attention be finding? It can be continuity, color/texture/gradients/ backgrounds, same object parts etc.
+If we were to use single self-attention, then the network would be limited in capturing "different" kinds of relationships.
+This is exactly the same as why we have multiple channels/kernels.
+We solve this problem by using multiple self-attentions in parallel, each with its own weights.
+So, in order to encapsulate multiple complex relationships amongst different elements in the sequence, the multi-head attention comprises multiple self-attention blocks (h = 8 in the original transformer model).
+Each block has its own set of learnable weight matrices , where .
+For an input x, now we would get h number of outputs.
+These are then concatenated into a single matrix and then transformed back into a single output.
+(un)supervised pre-training the self-attention-based transformer model generally operates in a two-stage training mechanism.
+First, pre-training is performed on a large-scale dataset (and sometimes a combination of several available datasets) in either a supervised or unsupervised manner.
+Later, the pre-trained weights are adapted to the downstream tasks using small-mid scale datasets.
+Example downstream tasks include image classification, object detection, zero-shot learning, question-answering, and action recognition.
+Vit experiences an absolute 13% drop in accuracy on imagenet when not pre-trained on other datasets (like jft).
+Since acquiring manual labels for a massive scale is cumbersome, self-supervised learning has been very effective.
+As nicely summarised by y.
+Lecun, the basic idea of ssl is to fill in the blanks, i. E.
+Try to predict the occluded data in images, future, or past frames in temporal video sequences or color the grayscale image, etc.
+So, in the ssl-based pretraining stage, a model is trained to learn a meaningful task.
+Transformers for image recognition on the right is linearly increasing the receptive field in a cnn model.
+On the left is the interaction between pixels up to 128-pixels away.
+There are few things that we can argue from this: there are heads that attend to all the patches in early layers in a transformer it seems more critical for early layers to have access to all the patches attention distance increases with network depth similar to in a cnn please note that attention to pixels at distance is not exactly equal to rf.
+An image is worth 16x16 words this paper presented the first implementation that completely removed convolutions.
+If we were to actually do a default implementation of transformers on the images, we would look at attention units calculated at an exponential scale!
+For calculating attention for each pixel in 224x224 images, we would need 50176 attention values!
+One alternative would be to calculate "local attention", i. E.
+Calculating attention for local regions only.
+In this paper, google engineers figured out how to achieve global attention without getting into an exponential trap.
+Their idea? Patches!
+They divide the image into multiple 16x16 patches.
+A 64x64x3 image would be divided into 16 patches.
+Each patch is now sent to a conv2d layer (but it's not going to be a convolution, read further), that has the kernel size = patch_size, input channel = 3, output channel = 1, and stride = patch size.
+I. E.
+16x16x3 | 16x16x3x1 (this is an fc layer).
+Then these 16x16x1 patches are flattened, transposed, and then added with class_token (a weight initialized with 0, but allowed to be trained, we'll discuss more on this in the next session).
+Then we add position embeddings, which are again 16+1 weights that are 0 initialized but allowed to be calculated by the backpropagation.
+The output of this projection is called patch embedding.
+These patch embeddings are then sent to the encoder.
+In the encoder, these patch embeddings would be sent to a block where they are normalized, sent to mha, added with residual connection, normalized again, send to mlp, added with residual again.
+There would be 6 such blocks.
+Before jumping to transformers in more detail (next session), let's look at pytorch's implementation of spatial transformer networks.
+Let's take a look at heavily encapsulated vit code for mnist assignment build the following network: that takes a cifar10 image (32x32x3) add 3 convolutions to arrive at axax48 dimensions (e. G.
+32x32x3 | 3x3x3x16 >> 3x3x16x32 >> 3x3x32x48) apply gap and get 1x1x48, call this x create a block called ultimus that: creates 3 fc layers called k, q and v such that: x*k = 48*48x8 > 8 x*q = 48*48x8 > 8 x*v = 48*48x8 > 8 then create am = softmax(qtk)/(8^ = 8*8 = 8 then z = v*am = 8*8 > 8 then another fc layer called out that: z*out = 8*8x48 > 48 repeat this ultimus block 4 times then add final fc layer that converts 48 to 10 and sends it to the loss function.
+Model would look like this c>c>c>u>u>u>u>ffc>loss train the model for 24 epochs using the ocp that i wrote in class.
+Use adam as an optimizer.
+Submit the link and answer the questions on the assignment page: share the link to the main repo (must have assignment 7/8/9 model7/8/9. Py files (or similarly named)) share the code of model9. Py copy and paste the training log copy and paste the training and validation loss chart video studio google meet version session 10 - dawn of transformers - part ii in the last session, we covered these basics: split the image into patches (16x16) flatten the patches produce lower-dimensional linear embeddings from the flattened patches add positional embeddings (so patches can retain their positional information) feed the sequence as an input to a standard transformer encoder) pre-train the model with image labels (fully supervised on a huge dataset) finetune on the downstream dataset for image classification) standard transformer: in the case of the standard transformer (with self-attention), the flattened patches go through three fully connected layers namely, k, q, and v, to become key, query, and values.
+The reason we discussed why this happened was to reduce dimensionality further and introduce the concept of the head (channels) so same patches go through the same fck, fcq, and fcv layers and become k, q, and v vectors.
+We multiply the first q with k and introduce numerical stability to it, and get our attention matrix (say bxb).
+The attention matrix gets multiplied by the v vector and we get b outputs.
+We add all of these b outputs together to get our final output for the first q.
+We repeat this process for all qs.
+Attention is all you need!
+The paper introduces a novel sequence transduction model, the transformer, an encoder-decoder model that works only through attention mechanisms.
+Attention mechanisms allow the model to focus on different parts of the input and output sequences, without using recurrence or convolutions.
+The paper proposes two types of attention: scaled dot-product attention and multi-head attention.
+The paper also introduces positional encoding to inject some information about the relative or absolute position of tokens in a sequence.
+You can learn more about positional encodings here.
+The paper shows that transformers are superior in quality and more parallelizable than recurrent or convolutional models on two machine translation tasks.
+(remember heads) the paper introduces a novel sequence transduction model, the transformer, an encoder-decoder model that works only through attention mechanisms.
+Attention mechanisms allow the model to focus on different parts of the input and output sequences, without using recurrence or convolutions.
+This paper was the start of the transformer revolution and was written by google.
+Manual calculation is all you need!
+Let's go through the whole process by manually calculating things along the way.
+Imagine that we have already done the above bit, and each convolved square patch has been flattened into a 9x512 vectors.
+We will first split each of these vectors into 512/8 = 64 dimensions.
+Remember, each of these colors above represents the same patch, just 1/8th of it.
+We are going to calculate the self-attention of these patches separately.
+Here we have 8 heads.
+The process below will be repeated for each query please remember that we are calculating values only for 1 query in the image above.
+In actual algorithm, we'll leverage matmul and calculate for each query at one: where the intermediate attention matrix (not shown above) would have a shape of 9x9.
+Since we had 8 heads, this operation is happening at 8 parallel paths: to allow these values to "communicate" with each other, we'll add a linear layer that merges them together and get back the 512d form for each vector we started with.
+Let's do all of this at once in an excel sheet.
+Let's do all of this in numpy.
+Vision transformer we looked at the above image in the last session, but there is one more exciting image, that reveals a lot more, and is something that we might be using for our capstone project.
+Take a look below and let's spend a few seconds in awe the key contribution of the vit paper was the application of an existing architecture (transformers, introduced in attention is all you need) to the field of computer vision.
+It is the training method and the dataset used to pre-train the network, that was key for vit to get excellent results compared to sota on imagenet.
+As an overall method, from the paper we split an image into fixed-size patches, linearly embed each of them, add positional embeddings, and feed the resulting sequence of vectors to a standard transformer encoder.
+In order to perform classification, we use the standard approach of adding an extra learnable "classification token" to the sequence.
+The overall architecture can be described easily in five simple steps: split an input image into patches get linear embeddings (representations) from each patch referred to as patch embeddings add positional embeddings and a [cls] token to each of the patch embeddings there is more to the cls token that we would cover today.
+Would request you to consider the definition of cls token as shared in the last class as wrong, as we need to further decode it.
+Pass through a transformer encoder and get the output values for each of the [cls] tokens.
+Pass the representations of [cls] tokens through an mlp head to get final class predictions.
+Step 1 let us start with a 224x224x3 image.
+We divide the image into 14 patches of 16x16x3 size..
+Nothing special here, but you need to keep in mind, that the model we are making is not limited to this 14 patch restriction, and neither we need to send a square image.
+It just needs to be a multiple of 16.
+Hence all the below images are of acceptable size: 224x160 160x160 480x480 1920x1280 ...
+Step 2 in the second step, we pass these patches through the same linear projection layer to get 1x768.
+There are many ways of doing this.
+Like using convolutions: using nn. Linear and others, but you get the point.
+Just convert that 16x16x3 into 768.
+224x224x3  14x14x16x16x3  196x16x16x3 | conv2d(3, 768, 16, 16)  196x768  768x196 step 3 - the cls token so we prepend a [cls] token and add positional embeddings to the patch embeddings.
+From the paper: similar to bert's [cls] token, we prepend a learnable embedding to the sequence of embeddings patches, whose state at the output of the transformer encoder (referred to as) serves as the image representation.
+Both during pre-training and fine-tuning, a classification head is attached to position embeddings are also added to the patch embeddings to retain positional information.
+We use standard learnable 1d positional embeddings and the resulting sequence of embedding vectors serves as input to the encoder.
+This process can be visualized as below: so [cls] token is a vector of size 1x768, and nn. Parameter makes it a learnable parameter.
+We prepend it to the patch embedding and add positional embeddings.
+224x224x3  14x14x16x16x3  196x16x16x3 | conv2d(3, 768, 16, 16)  196x768  768x196 patchembedding (768x196) + cls_token (768x1)  intermediate_value (768x197) positional embedding (768x197) + intermediate_value (768x197)  combined embedding (768x197) step 4 - the transformer encoder the combined embedding (768x197) is sent as the input to the first transformer: the first layer of the transformer encoder accepts combined embedding of shape 197x768 as input.
+For all subsequence layers, the inputs are the output matrix of shape 197x768.
+Note that we are maintaining that additional cls token embedding dimension.
+There are 12 such layers in the vit-base architecture.
+Inside the layer, inputs are first passed through a layer norm, and then fed to a multi-head attention block.
+Step 5 - the mlp block the mlp block consists of two linear layers and a gelu non-linearity.
+The outputs of the mlp block are again added to the input (skip connection) to get the final output from one layer of the transformer encoder.
+Notice that the 12th block returns 197x768, but the mlp head receives 768 as input!
+This is the last line of the code of the visiontransformer's forward function!
+That's the use of the [cls] token.
+We use it to maintain what each transformer block thinks about the image, and finally, use only this vector for prediction!
+It is a pretty controversial vector, as you could use the rest of the vectors to map things back to the total number of classes as well, but this is what bert (google) implemented, and vit is google's paper.
+Another instance of this cls token the deit paper explains this token in a slightly better way.
+The cls token is a trainable vector, appended to the patch tokens before the first layer, that goes through the transformer layers, and is then projected with a linear layer to predict the class.
+This class token is inherited from nlp and departs from the typical pooling layers used in computer vision to predict the class.
+The transformer thus processes batches of (n+1) tokens of dimension d, of which only the class vector is used to predict the output.
+This architecture forces the self-attention to spread information between the patch tokens and the class token: at training time the supervision signal comes only from the class embedding, while the patch tokens are the model's only variable input.
+Some hands-on now let's look at a very unique approach to handling images using convmixers.
+Here is the code for the vit-type network that we wrote in class.
+Assignment check out this network: re-write this network such that it is similar to the network we wrote in the class all parameters are the same as the network we wrote proceed to submit the assignment: share the model code and link to the model cost share the training logs share the gradcam images for 10 misclassified images video studio session 10 - object localisation part 1 - yolo the beginning of the wars recognition vs detection detection approaches recap finding bbox - obsolete method region proposal anchor boxes computing anchor boxes intersection over union scary loss function annotating a dataset assignment the beginning
+
+where are we today? Image classification sota is vit-g/14 at 9% with extra training data.
+Object detection sota is dyhead at 6boxap but used extra training data on coco, else dual swim b is at 59.3 every year there is an addition of new technology which is making everything till then obsolete.
+Recognition vs detection in object recognition, our aim is to recognise what all is there in the image, for e. G.
+Dog and bridge.
+In object detection, however, we need to specify where exactly the dog(s) and bridge are.
+Recognition is pretty easy these days, while detection is still a work in development.
+Detection approaches simplify object detection problem by: ignoring lower prediction values predicting bounding boxes instead of the exact object mask mixing different receptive field layers but this is easier said than done.
+There are two main approaches to driving detection algorithms, namely: yolo-like approach, where k-means extracted anchor boxes are used, and ssd-like approach, where a fixed number of predefined bounding boxes are used.
+Recap later on this is how prediction cells look like.
+You can relate the cells with the image.
+Then finding bbox - obsolete method
+why do you think this is bad? Because we need to answer a few hard questions.
+What should be the size of this window? How do we handle big and small objects at the same time? Do we need to slide it at each pixel, or we can make a jump? What is the perfect jump size? Sliding window as a concept is simple but extremely compute-intensive.
+Region proposal rcnn uses this, and it was very bad, so bad that rcnn took 20 seconds to go through 1 image (it was running alexnet 2000 times for 2000 proposals) anchor boxes faster rcnn, ssd and yolov2, all use anchor boxes.
+Intuitively, we know that objects in an image should fit certain common aspect ratios and sizes.
+For instance, we know that we want some rectangular boxes that resemble the shapes of humans.
+Likewise, we know we wont see many boxes that are very very thin.
+In such a way, we create k such common aspect ratios we call anchor boxes.
+For each such anchor box, we output one bounding box and score per position in the image.
+How to calculate anchor boxes let us see how to do it!
+Compute the centre location, width and height of each bounding box, and normalise it by image dimensions (in the datasets) plot the h and w for each box as shown in the right "h vs w graph" use k-means clustering to compute cluster centres (centroids).
+Code compute the different numbers of clusters and compute the mean of maximum iou between bounding boxes and individual anchors.
+Plot centroids vs mean iou.
+Pick the top 5 anchor boxes (5 for yolov2 where iou was above 65%) intersection over union intersection over union is an evaluation metric used to measure the accuracy of an object detector on a particular dataset.
+The scary loss function we have 5 anchor boxes.
+For each anchor box, we need objectness-confidence score (where there is an object found? ), 4 coordinates (tx, ty, tw and th ), and 20 top classes.
+This can crudely be seen as 20 coordinates, 5 confidence scores, and 100 class probabilities as shown in the image on the right, so in total 125 filter of 1x1 size would be needed.
+So we have a few things to worry about: xi, yi , which is the location of the centroid of the anchor box wi, hi , which is the width and height of the anchor box ci, which is the objectness, i. E.
+Confidence score of whether there is an object or not, and pi(c), which is the classification loss all losses are mean squared errors, except classification loss, which uses cross-entropy function.
+Let's look at that loss function again.
+Now, let's break the code in the image.
+We need to compute losses for each anchor box (5 in total)  b  represents this part.
+We need to do this for each of the 13x13 cells where s = 13  s 2  represents this part.
+1 i j o b j  is 1 when there is an object in the cell i , else  i j n o o b j  is 1 when there is no object in the cell i , else e need to do this to make sure we reduce confidence when there is no object as well.
+1 i o b j  is 1 when there is a particular class is predicted, else  are constants.
+ Is highest for coordinates in order to focus more on detection (remember, we have already trained the network for recognition!
+) we can also notice that wi, hi  are under square-root.
+This is done to penalise the smaller bounding boxes as we need to adjust them more.
+Check out this table: var1	var2	(var1-var2)^2	(sqrtvar1-sqrtvar2)^2 00	0	9.99e-05	1 30	2	012	11 93	6	0533	233 48	3	512	723 08	7	62	96 4.4920	2.994	2.2421	12 annotations let's look at vgg annotator: http: //www. Robots. Ox. Ac. Uk/~vgg/software/via/via_demo. Html class excel sheet.
+Assignment assignment a: download this tiny imagenet dataset.
+Train resnet18 on this dataset (70/30 split) for 50 epochs.
+Target 50%+ validation accuracy.
+Submit results.
+Of course, you are using your own package for everything.
+You can look at this for reference.
+Assignment b: download this file.
+Learn how coco object detection dataset's schema is.
+This file has the same schema.
+You'll need to discover what those number are.
+Identify these things for this dataset: readme data for class distribution (along with the class names) along with a graph calculate the anchor boxes for k = 3, 4, 5, 6 and draw them.
+Share the calculations for both via a notebook uploaded on your github repo questions in s10-assignment-solution: share the final 4-5 log data showing your validation/test accuracy (don't redirect to any page, you'll get 0).
+Describe the data augmentation strategy that you used in points.
+Then copy page the augmentation/transformation code here (don't redirect to any page, you'll get 0).
+Share the link to your repo where you are storing your model. Py file (cannot be the same as the repo for this assignment submission).
+Share the link to this assignment's repo where we can find the code for tinyimagenet resnet and the code for calculation of k-means (these can be different if you want).
+Share the link to readme for k-means assignment.
+Share the image showing your bboxes based on your calculations for all the ks, and describe them.
+Studio gm video gm session 11 - dawn of transformers - part iii training a vit again let's train the vit model again training a bert from scratch what is bert? It stands for bidirectional encoder representations from transformers.
+One of the main things that were missing from nlp was, the ability to use a pre-trained network and ulm-fit changed that.
+Bert was released to take this concept further.
+Bert is basically just the encoder part of the transformer.
+You already know bert as that is he model that we used in vit, except the "patch generation" process.
+This cls token's output can be fed to a classifier network: we train it (among multiple approaches), essentially on two main approaches, mask prediction, and 'isnext" sentence masking words isnext prediction let's train a bert model from scratch training a gpt from scratch if bert was just the encoder part of the transformers, then gpt is just the decoder part of the network.
+Simply put predicts the next word.
+So unlike bert, gpt will output one token at a time.
+Another key difference when comparing gpt to bert would be the way we mask the tokens.
+In bert we used the mask token to predict the missing work.
+In gpt, we will mask "all" future words.
+So our attention would be "masked" attention.
+Hence, the masked attention part of the code is expected to not assign any attention to the future words: we need to mask all future words as we are about to predict them: so, to mark the attention matrix, we add -inf wherever masking was required: this is done, so that when we apply softmax, these -inf values would become 0 if we had 50000 tokens, we'll predict 50000 values.
+We can just take the top value, but in general top 40 values are taken, and then we sample one of them based on their probability score.
+This adds better and more interesting results!
+The beautiful part about decoder model is that it can be used even for language translation.
+It doesn't need encoder block!
+It can be used to summarize as well!
+Decoder only model seems to have won the battle against the encoder only model.
+To learn more about them, follow this link.
+A note on the attention.
+In the case of normal transformers (decoder, so masking all future ones), we pay attention to all the past tokens.
+Instead, we can apply either strided or fixed attention.
+The first version, strided attention, is roughly equivalent to each position attending to its row and its column, and is similar to the attention pattern learned by the network above.
+(note that the column attention can be equivalently formulated as attending to the row of the transposed matrix).
+The second version, fixed attention, attends to a fixed column and the elements after the latest column element, a pattern we found useful for when the data didnt fit into a two-dimensional structure (like text).
+For text, it would look something like this: we also found that sparse attention achieved lower loss than full attention, in addition to being significantly faster.
+This may point to a useful inductive bias from our sparsity patterns, or an underlying optimization issue with dense attention.
+Gpt gpt (generative pre-trained transformer) is a type of language model that uses unsupervised learning to generate natural language text.
+Gpt was introduced in 2018 and it was based on the transformer architecture.
+Gpt-2 (generative pre-trained transformer 2) is an improved version of gpt, released in 2019.
+It has a larger number of parameters, a more powerful language model, and can generate longer texts.
+Gpt-2 also introduced the concept of "prompt engineering", which allows users to generate text based on a given prompt.
+Gpt-3 (generative pre-trained transformer 3) is the latest version of the gpt series, released in 202pt-3 has significantly more parameters than gpt-2, which enables it to generate highly coherent and human-like text.
+Gpt-3 also introduced several new features, including multi-language support, few-shot learning, and a "zero-shot" mode that allows it to generate text without any specific training.
+The main difference in the architectures of gpt, gpt-2, and gpt-3 is the number of parameters they have.
+Gpt has 117 million parameters, gpt-2 has 1.5 billion parameters, and gpt-3 has up to 175 billion parameters.
+This increase in parameters allows for more complex and accurate language modeling.
+Additionally, gpt-3 also uses a novel scaling technique called "sparse attention" to handle the massive number of parameters.
+We just covered gpt3!
+Gpt3 is just bigger and trained on a lot more tasks compared to any other model.
+For instance:
+let's train a small gpt from scratch
+clip clip stands for contrastive language-image pre-training contrastive representation captures information that is shared by multiple sources (images, text in our case).
+This model learns the relationship between a whole sentence and the image it describes.
+Simply put for an input sentence, it will be able to find the relevant images.
+Clip is trained on the whole sentences, rather than just on labels.
+This strategy is so good, that it classifies imagenet better than sota models trained on imagenet optimized for label prediction.
+The idea is to maximize mutual information.
+Also unlike other models, clip jointly trains an image encoder and a text encoder to encourage a close embedding space
+as we can see above, given n (image, text) pairs, clip is trained to predict which of the nxn possible pairings actually occurred.
+To do this, clip trains a multi-modal embedding space by jointly training an image and a text encoder by maximizing (image, text) mappings and penalizing incorrect mappings.
