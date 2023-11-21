@@ -25,7 +25,7 @@ def train_bert(model, dataset, data_loader, vocab, config):
     print('training...')
     print_each = 10
     model.train()
-    loader_iter = iter(data_loader)
+    batch_iter = iter(data_loader)
     for it in range(config.n_epochs):
 
         #get batch
