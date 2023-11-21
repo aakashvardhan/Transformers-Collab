@@ -104,4 +104,4 @@ def train_gpt(model,train_data, val_data, config):
         # using the calculated gradients, in order to minimize the loss.
         optimizer.step()
         
-    save_model_to_checkpoint(model=model, checkpoint_path="checkpoint", epoch=step)
+    save_model_to_checkpoint(model=model, checkpoint_path="checkpoints", epoch=step)
