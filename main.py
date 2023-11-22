@@ -6,7 +6,7 @@ from config import BertConfig, GPTConfig, VITConfig
 from utils import (create_bert_dataset, 
                    create_gpt_dataset,
                    get_gpt_model,
-                   create_dataloader)
+                   decode)
 import torch.nn as nn
 import torch
 from pathlib import Path
@@ -44,6 +44,14 @@ if __name__ == '__main__':
         train_data, val_data, tokenizer, vocab_size = create_gpt_dataset(config)
         model = get_gpt_model(config, vocab_size)
         train_gpt(model, train_data, val_data, config)
+        # generate some output based on the context
+        context = torch.zeros((1, 1), dtype=torch.long, device=config.device)
+        print(
+            decode(
+                enc_sec=model.generate(idx=context, max_new_tokens=100, block_size=config.block_size)[0],
+                tokenizer=tokenizer,
+            )
+        )
         
     if args.model_type == 'vit':
         config = VITConfig()
