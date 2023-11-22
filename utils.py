@@ -406,11 +406,11 @@ def get_vit_model_summary(model, input_size=(32, 3, 224, 224), col_names=["input
                                                                          "output_size", 
                                                                          "num_params", 
                                                                          "trainable"]):
-    return summary(model,
+    print(summary(model,
                    input_size=input_size,
                    col_names=col_names,
                    col_width=20,
-                   row_settings=["var_names"])
+                   row_settings=["var_names"]))
     
 def get_patch_pos_embedding(image, config):
     patch_size = config.patch_size
