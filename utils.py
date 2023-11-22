@@ -293,3 +293,63 @@ def show_img(image, label, class_names):
     # save image
     plt.savefig(f"image_{class_names[label]}.png")
     
+
+def patchify_img(image, label, class_names, config):
+    image_permuted = image.permute(1, 2, 0)
+    patch_size = config.patch_size
+    img_size = config.img_size
+    num_patches = img_size / patch_size
+    assert img_size % patch_size == 0, "Image size must be divisible by patch size"
+    print(f"Number of patches per row: {num_patches}\
+            \nNumber of patches per column: {num_patches}\
+            \nTotal patches: {num_patches*num_patches}\
+            \nPatch size: {patch_size} pixels x {patch_size} pixels")
+
+    # Create a series of subplots
+    fig, axs = plt.subplots(nrows=img_size // patch_size, # need int not float
+                            ncols=img_size // patch_size,
+                            figsize=(num_patches, num_patches),
+                            sharex=True,
+                            sharey=True)
+
+    # Loop through height and width of image
+    for i, patch_height in enumerate(range(0, img_size, patch_size)): # iterate through height
+        for j, patch_width in enumerate(range(0, img_size, patch_size)): # iterate through width
+
+            # Plot the permuted image patch (image_permuted -> (Height, Width, Color Channels))
+            axs[i, j].imshow(image_permuted[patch_height:patch_height+patch_size, # iterate through height
+                                            patch_width:patch_width+patch_size, # iterate through width
+                                            :]) # get all color channels
+
+            # Set up label information, remove the ticks for clarity and set labels to outside
+            axs[i, j].set_ylabel(i+1,
+                                rotation="horizontal",
+                                horizontalalignment="right",
+                                verticalalignment="center")
+            axs[i, j].set_xlabel(j+1)
+            axs[i, j].set_xticks([])
+            axs[i, j].set_yticks([])
+            axs[i, j].label_outer()
+
+    # Set a super title
+    fig.suptitle(f"{class_names[label]} -> Patchified", fontsize=16)
+    
+    # save figure
+    plt.savefig(f"image_{class_names[label]}_patchified.png")
+    
+def show_conv2d_feature_maps(image, config, k=5):
+    image_out_of_conv = config.conv2d(image.unsqueeze(0)) # add extra dimension for batch size
+    random_indexes = random.sample(range(0, 758), k=k) # pick 5 numbers between 0 and the embedding size
+    print(f"Showing random convolutional feature maps from indexes: {random_indexes}")
+
+    # Create plot
+    fig, axs = plt.subplots(nrows=1, ncols=5, figsize=(12, 12))
+
+    # Plot random image feature maps
+    for i, idx in enumerate(random_indexes):
+        image_conv_feature_map = image_out_of_conv[:, idx, :, :] # index on the output tensor of the convolutional layer
+        axs[i].imshow(image_conv_feature_map.squeeze().detach().numpy())
+        axs[i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[]);
+        
+    # save figure
+    plt.savefig(f"image_conv_feature_maps.png")

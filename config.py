@@ -71,6 +71,7 @@ class VITConfig:
     def __init__(self):
         self._patch_size = 16
         self._img_size = 224
+        self.color_channels = 3
         self._img_path = 'dataset/pizza_steak_sushi'
         self.batch_size = 32
         self.num_workers = os.cpu_count()
