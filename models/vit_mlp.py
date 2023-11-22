@@ -4,8 +4,8 @@
 import torch
 import torch.nn as nn
 import math 
-import lightning as pl
-from lightning import LightningModule
+# import lightning as pl
+# from lightning import LightningModule
 import numpy as np
 import torch.nn.functional as F
 
