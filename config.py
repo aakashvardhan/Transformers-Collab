@@ -81,6 +81,14 @@ class VITConfig:
         self.num_workers = os.cpu_count()
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.dropout = 0.2
+        self.num_transformer_layers:int=12, # Layers from Table 1 for ViT-Base
+        self.embedding_dim:int=768, # Hidden size D from Table 1 for ViT-Base
+        self.mlp_size:int=3072, # MLP size from Table 1 for ViT-Base
+        self.num_heads:int=12, # Heads from Table 1 for ViT-Base
+        self.attn_dropout:float=0, # Dropout for attention projection
+        self.mlp_dropout:float=0.1, # Dropout for dense/MLP layers
+        self.embedding_dropout:float=0.1, # Dropout for patch and position embeddings
+        self.num_classes:int=1000
         
     @property
     def patch_size(self):
