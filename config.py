@@ -71,6 +71,10 @@ class VITConfig:
     def __init__(self):
         self._patch_size = 16
         self._img_size = 224
+        self.epoch = 5
+        self.lr = 3e-3
+        self.betas = (.9, .999)
+        self.weight_decay = 0.3    
         self.color_channels = 3
         self._img_path = 'dataset/pizza_steak_sushi'
         self.batch_size = 32

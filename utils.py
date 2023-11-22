@@ -392,7 +392,7 @@ def show_flattened_feature_map(image, config):
     
 # get vit model summary
 
-def get_vit_model_summary(model, input_size=(1, 3, 224, 224), col_names=["input_size", 
+def get_vit_model_summary(model, input_size=(32, 3, 224, 224), col_names=["input_size", 
                                                                          "output_size", 
                                                                          "num_params", 
                                                                          "trainable"]):
