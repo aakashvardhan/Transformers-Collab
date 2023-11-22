@@ -9,7 +9,11 @@ from utils import (create_bert_dataset,
                    create_dataloader)
 from vit_engine import train, test
 import torch
-
+from pathlib import Path
+import requests
+import evaluation_utils as utils
+import torchvision
+import torchvision.transforms as transforms
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -43,9 +47,18 @@ if __name__ == '__main__':
         
     if args.model_type == 'vit':
         config = VITConfig()
-        train_dataloader, test_dataloader, class_names = create_dataloader(config)
-        # Setup the optimizer to optimize our ViT model parameters using hyperparameters from the ViT paper
-        
-    
+        class_names = ["pizza", "steak", "sushi"]
+        pretrained_vit = torch.load("models/08_pretrained_vit_feature_extractor_pizza_steak_sushi.pth")
+        with open("download.jpeg", "wb") as f:
+        # When downloading from GitHub, need to use the "raw" file link
+            request = requests.get("https://www.boss-pizza.co.uk/site/assets/images/uploads/2_3_5c232a9d83be_o.jpg")
+            print(f"Downloading...")
+            f.write(request.content)
+
+        # Predict on custom image
+        utils.pred_and_plot_image(model=pretrained_vit,
+                            image_path="download.jpeg",
+                            transform=transforms.Resize((config.img_size, config.img_size)),
+                            class_names=class_names)
     
     
