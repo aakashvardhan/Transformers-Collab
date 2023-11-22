@@ -13,6 +13,7 @@ import requests
 import matplotlib.pyplot as plt
 import random
 from torch import nn
+from models.vit_patch_embedding import PatchEmbedding
 
 try:
     from transformers import AutoTokenizer
@@ -27,6 +28,14 @@ from models.transformer import (
 )
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Dataset
+
+# Try to get torchinfo, if not, install it
+try:
+    from torchinfo import summary
+except:
+    print("Installing torchinfo...")
+    subprocess.run(["pip", "install", "torchinfo"])
+    from torchinfo import summary
 
 
 # ========================= BERT =========================
@@ -336,7 +345,7 @@ def patchify_img(image, label, class_names, config):
     fig.suptitle(f"{class_names[label]} -> Patchified", fontsize=16)
     plt.show()
     # save figure
-    plt.savefig(f"image_{class_names[label]}_patchified.png")
+    fig.savefig(f"image_{class_names[label]}_patchified.png")
     
 def show_conv2d_feature_maps(image, config, k=5):
     image_out_of_conv = config.conv2d(image.unsqueeze(0)) # add extra dimension for batch size
@@ -351,6 +360,95 @@ def show_conv2d_feature_maps(image, config, k=5):
         image_conv_feature_map = image_out_of_conv[:, idx, :, :] # index on the output tensor of the convolutional layer
         axs[i].imshow(image_conv_feature_map.squeeze().detach().numpy())
         axs[i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[]);
+        # save figure
+        plt.savefig(f"image_conv_feature_map_{i}.png")
         
+def show_flattened_feature_map(image, config):
+    # Create flatten layer
+    flatten = nn.Flatten(start_dim=2, # flatten feature_map_height (dimension 2)
+                        end_dim=3) # flatten feature_map_width (dimension 3)
+    # 2. Turn image into feature maps
+    image_out_of_conv = config.conv2d(image.unsqueeze(0)) # add batch dimension to avoid shape errors
+    print(f"Image feature map shape: {image_out_of_conv.shape}")
+
+    # 3. Flatten the feature maps
+    image_out_of_conv_flattened = flatten(image_out_of_conv)
+    print(f"Flattened image feature map shape: {image_out_of_conv_flattened.shape}")
+    
+    # Get flattened image patch embeddings in right shape
+    image_out_of_conv_flattened_reshaped = image_out_of_conv_flattened.permute(0, 2, 1) # [batch_size, P^2•C, N] -> [batch_size, N, P^2•C]
+    print(f"Patch embedding sequence shape: {image_out_of_conv_flattened_reshaped.shape} -> [batch_size, num_patches, embedding_size]")
+    
+    # Get a single flattened feature map
+    single_flattened_feature_map = image_out_of_conv_flattened_reshaped[:, :, 0] # index: (batch_size, number_of_patches, embedding_dimension)
+
+    # Plot the flattened feature map visually
+    plt.figure(figsize=(22, 22))
+    plt.imshow(single_flattened_feature_map.detach().numpy())
     # save figure
-    plt.savefig(f"image_conv_feature_maps.png")
+    plt.savefig(f"image_flattened_feature_map.png")
+    plt.title(f"Flattened feature map shape: {single_flattened_feature_map.shape}")
+    plt.axis(False);
+    
+# get vit model summary
+
+def get_vit_model_summary(model, input_size=(1, 3, 224, 224), col_names=["input_size", 
+                                                                         "output_size", 
+                                                                         "num_params", 
+                                                                         "trainable"]):
+    return summary(model,
+                   input_size=input_size,
+                   col_names=col_names,
+                   col_width=20,
+                   row_settings=["var_names"])
+    
+def get_patch_pos_embedding(image, config):
+    patch_size = config.patch_size
+    # 2. Print shape of original image tensor and get the image dimensions
+    print(f"Image tensor shape: {image.shape}")
+    height, width = image.shape[1], image.shape[2]
+
+    # 3. Get image tensor and add batch dimension
+    x = image.unsqueeze(0)
+    print(f"Input image with batch dimension shape: {x.shape}")
+
+    # 4. Create patch embedding layer
+    patch_embedding_layer = PatchEmbedding(in_channels=3,
+                                        patch_size=patch_size,
+                                        embedding_dim=768)
+
+    # 5. Pass image through patch embedding layer
+    patch_embedding = patch_embedding_layer(x)
+    print(f"Patching embedding shape: {patch_embedding.shape}")
+
+    # 6. Create class token embedding
+    batch_size = patch_embedding.shape[0]
+    embedding_dimension = patch_embedding.shape[-1]
+    class_token = nn.Parameter(torch.ones(batch_size, 1, embedding_dimension),
+                            requires_grad=True) # make sure it's learnable
+    print(f"Class token embedding shape: {class_token.shape}")
+
+    # 7. Prepend class token embedding to patch embedding
+    patch_embedding_class_token = torch.cat((class_token, patch_embedding), dim=1)
+    print(f"Patch embedding with class token shape: {patch_embedding_class_token.shape}")
+
+    # 8. Create position embedding
+    number_of_patches = int((height * width) / patch_size**2)
+    position_embedding = nn.Parameter(torch.ones(1, number_of_patches+1, embedding_dimension),
+                                    requires_grad=True) # make sure it's learnable
+
+    # 9. Add position embedding to patch embedding with class token
+    patch_and_position_embedding = patch_embedding_class_token + position_embedding
+    print(f"Patch and position embedding shape: {patch_and_position_embedding.shape}")
+    
+    return patch_and_position_embedding
+
+def get_shape_class_token(config):
+    batch_size = config.batch_size
+    class_token_embedding_single = nn.Parameter(data=torch.randn(1, 1, 768)) # create a single learnable class token
+    class_token_embedding_expanded = class_token_embedding_single.expand(batch_size, -1, -1) # expand the single learnable class token across the batch dimension, "-1" means to "infer the dimension"
+
+    # Print out the change in shapes
+    print(f"Shape of class token embedding single: {class_token_embedding_single.shape}")
+    print(f"Shape of class token embedding expanded: {class_token_embedding_expanded.shape}")
+    

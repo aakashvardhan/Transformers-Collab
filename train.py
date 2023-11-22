@@ -111,3 +111,7 @@ def train_gpt(model,train_data, val_data, config):
         optimizer.step()
         
     save_model_to_checkpoint(model=model, checkpoint_path="checkpoints", epoch=step)
+    
+    
+# ========================= ViT =========================
+
