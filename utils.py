@@ -38,6 +38,26 @@ except:
     from torchinfo import summary
 
 
+# ========================= All Model Utilities =========================
+
+def save_model(model: torch.nn.Module, model_name: str, target_dir: Path):
+    # Create target directory
+    target_dir_path = Path(target_dir)
+    target_dir_path.mkdir(parents=True,
+                        exist_ok=True)
+    try:
+        # Create model save path
+        assert model_name.endswith(".pth") or model_name.endswith(".pt"), "model_name should end with '.pt' or '.pth'"
+        model_save_path = target_dir_path / model_name
+
+        # Save the model state_dict()
+        print(f"[INFO] Saving model to: {model_save_path}")
+        torch.save(obj=model.state_dict(),
+                f=model_save_path)
+    except Exception as e:
+        print(f"Could not save model to {model_save_path}")
+        print(e)
+
 # ========================= BERT =========================
 
 def create_bert_dataset(config):
@@ -97,16 +117,6 @@ def save_embeddings(dataset, model,N=3000):
         print(f"Could not write to dataset/names.tsv")
         print(e)
     
-def save_model(model):
-    # check if path exists, if not create it
-    if not os.path.exists("saved_models"):
-        os.mkdir("saved_models")
-    try:
-        print('saving model...')
-        torch.save(model.state_dict(), 'saved_models/bert.pth')
-    except Exception as e:
-        print(f"Could not save model to saved_models/bert.pth")
-        print(e)
     
     
 # ========================= GPT =========================
