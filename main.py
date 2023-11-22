@@ -48,6 +48,7 @@ if __name__ == '__main__':
     if args.model_type == 'vit':
         config = VITConfig()
         # 1. Get pretrained weights for ViT-Base
+        class_names = ["pizza", "steak", "sushi"]
         pretrained_vit_weights = torchvision.models.ViT_B_16_Weights.DEFAULT # requires torchvision >= 0.13, "DEFAULT" means best available
 
         # 2. Setup a ViT model instance with pretrained weights
@@ -58,7 +59,6 @@ if __name__ == '__main__':
 
 
         pretrained_vit.heads = nn.Linear(in_features=768, out_features=len(class_names)).to(config.device)
-        class_names = ["pizza", "steak", "sushi"]
         pretrained_vit.load_state_dict(torch.load("models/08_pretrained_vit_feature_extractor_pizza_steak_sushi.pth"))
         with open("download.jpeg", "wb") as f:
         # When downloading from GitHub, need to use the "raw" file link
