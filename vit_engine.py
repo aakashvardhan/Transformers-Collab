@@ -46,7 +46,7 @@ def train_step(model: torch.nn.Module,
 
         # 1. Forward pass
         y_pred = model(X)
-        print("y_pred:", y_pred)
+        # print("y_pred:", y_pred)
 
         # 2. Calculate  and accumulate loss
         loss = loss_fn(y_pred, y)
@@ -107,16 +107,16 @@ def test_step(model: torch.nn.Module,
         for batch, (X, y) in enumerate(dataloader):
             # Send data to target device
             X, y = X.to(device), y.to(device)
-            print("X:", X)
-            print("y:", y)
+            # print("X:", X)
+            # print("y:", y)
 
             # 1. Forward pass
             test_pred_logits = model(X)
-            print("test_pred_logits:", test_pred_logits)
+            # print("test_pred_logits:", test_pred_logits)
 
             # 2. Calculate and accumulate loss
             loss = loss_fn(test_pred_logits, y)
-            print("loss:", loss)
+            # print("loss:", loss)
             test_loss += loss.item()
 
             # Calculate and accumulate accuracy
