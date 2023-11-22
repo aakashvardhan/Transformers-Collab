@@ -106,6 +106,8 @@ def test_step(model: torch.nn.Module,
         for batch, (X, y) in enumerate(dataloader):
             # Send data to target device
             X, y = X.to(device), y.to(device)
+            print("X:", X)
+            print("y:", y)
 
             # 1. Forward pass
             test_pred_logits = model(X)
