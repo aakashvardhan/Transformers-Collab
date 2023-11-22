@@ -290,6 +290,7 @@ def show_img(image, label, class_names):
     plt.imshow(image.permute(1, 2, 0)) # rearrange image dimensions to suit matplotlib [color_channels, height, width] -> [height, width, color_channels]
     plt.title(class_names[label])
     plt.axis(False)
+    plt.show()
     # save image
     plt.savefig(f"image_{class_names[label]}.png")
     
@@ -333,7 +334,7 @@ def patchify_img(image, label, class_names, config):
 
     # Set a super title
     fig.suptitle(f"{class_names[label]} -> Patchified", fontsize=16)
-    
+    plt.show()
     # save figure
     plt.savefig(f"image_{class_names[label]}_patchified.png")
     
