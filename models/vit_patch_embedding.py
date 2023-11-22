@@ -23,6 +23,8 @@ class PatchEmbedding(nn.Module):
                  patch_size:int=16,
                  embedding_dim:int=768):
         super().__init__()
+        
+        self.patch_size = patch_size
 
         # 3. Create a layer to turn an image into patches
         self.patcher = nn.Conv2d(in_channels=in_channels,
