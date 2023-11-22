@@ -73,7 +73,7 @@ def train_bert(model, dataset, data_loader, vocab, config):
 
     # ========================= SAVE =========================
     #save model
-    save_model(model=model, model_name="bert", target_dir="saved_models")
+    save_model(model=model, model_name="saved_bert_model.pth", target_dir="saved_models")
 
     #save embeddings
     save_embeddings(dataset, model)
