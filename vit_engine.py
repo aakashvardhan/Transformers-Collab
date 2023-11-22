@@ -112,6 +112,7 @@ def test_step(model: torch.nn.Module,
 
             # 2. Calculate and accumulate loss
             loss = loss_fn(test_pred_logits, y)
+            print(loss)
             test_loss += loss.item()
 
             # Calculate and accumulate accuracy

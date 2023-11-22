@@ -24,7 +24,7 @@
             "request": "launch",
             "program": "utils.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": false
         }
     ]
 }
