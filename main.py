@@ -7,7 +7,7 @@ from utils import (create_bert_dataset,
                    create_gpt_dataset,
                    get_gpt_model,
                    create_dataloader)
-
+import torch.nn as nn
 import torch
 from pathlib import Path
 import requests
@@ -52,6 +52,12 @@ if __name__ == '__main__':
 
         # 2. Setup a ViT model instance with pretrained weights
         pretrained_vit = torchvision.models.vit_b_16(weights=pretrained_vit_weights).to(config.device)
+        # 3. Freeze the base parameters
+        for parameter in pretrained_vit.parameters():
+            parameter.requires_grad = False
+
+
+        pretrained_vit.heads = nn.Linear(in_features=768, out_features=len(class_names)).to(config.device)
         class_names = ["pizza", "steak", "sushi"]
         pretrained_vit.load_state_dict(torch.load("models/08_pretrained_vit_feature_extractor_pizza_steak_sushi.pth"))
         with open("download.jpeg", "wb") as f:
