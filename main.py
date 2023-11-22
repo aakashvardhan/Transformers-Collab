@@ -7,7 +7,7 @@ from utils import (create_bert_dataset,
                    create_gpt_dataset,
                    get_gpt_model,
                    create_dataloader)
-from vit_engine import train, test
+import utils
 import torch
 from pathlib import Path
 import requests
