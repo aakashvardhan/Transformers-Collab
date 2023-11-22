@@ -116,24 +116,8 @@ class GPT(nn.Module):
     
 # ==================== ViT ==================== #
 
-class ViT(nn.Module):
-    """Creates a Vision Transformer architecture with ViT-Base hyperparameters by default."""
-    # 2. Initialize the class with hyperparameters from Table 1 and Table 3
-    def __init__(self,
-                 img_size:int=224, # Training resolution from Table 3 in ViT paper
-                 in_channels:int=3, # Number of channels in input image
-                 patch_size:int=16, # Patch size
-                 num_transformer_layers:int=12, # Layers from Table 1 for ViT-Base
-                 embedding_dim:int=768, # Hidden size D from Table 1 for ViT-Base
-                 mlp_size:int=3072, # MLP size from Table 1 for ViT-Base
-                 num_heads:int=12, # Heads from Table 1 for ViT-Base
-                 attn_dropout:float=0, # Dropout for attention projection
-                 mlp_dropout:float=0.1, # Dropout for dense/MLP layers
-                 embedding_dropout:float=0.1, # Dropout for patch and position embeddings
-                 num_classes:int=1000): # Default for ImageNet but can customize this
-        super().__init__() # don't forget the super().__init__()!
         
-        # 1. Create a ViT class that inherits from nn.Module
+# 1. Create a ViT class that inherits from nn.Module
 class ViT(nn.Module):
     """Creates a Vision Transformer architecture with ViT-Base hyperparameters by default."""
     # 2. Initialize the class with hyperparameters from Table 1 and Table 3
