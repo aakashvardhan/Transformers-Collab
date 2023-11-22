@@ -8,10 +8,10 @@ from torchvision import transforms
 class BertConfig:
     def __init__(self):
         self._embed_size = 128
-        self.batch_size = 1024
+        self._batch_size = 1024
         self.seq_len = 20
-        self.n_epochs = 10000
-        self.n_heads = 8
+        self._n_epochs = 10000
+        self._n_heads = 8
         self.n_code = 8
         self.n_vocab = 40000
         self.dropout = 0.1
@@ -44,6 +44,30 @@ class BertConfig:
     @property
     def inner_ff_size(self):
         return self._embed_size * 4
+    
+    @property
+    def batch_size(self):
+        return self._batch_size
+
+    @batch_size.setter
+    def batch_size(self, value):
+        self._batch_size = value
+        
+    @property
+    def n_epochs(self):
+        return self._n_epochs
+
+    @n_epochs.setter
+    def n_epochs(self, value):
+        self._n_epochs = value
+        
+    @property
+    def n_heads(self):
+        return self._n_heads
+
+    @n_heads.setter
+    def n_heads(self, value):
+        self._n_heads = value
 
 # ===================== GPT Config ===================== #
 
@@ -161,5 +185,9 @@ class VITConfig:
     @property
     def test_dir(self):
         return self._img_path + '/test'
+    
+    @manual_transform.setter
+    def manual_transform(self, value):
+        self._manual_transform = value
         
     
