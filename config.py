@@ -22,6 +22,16 @@ class BertConfig:
         self.vocab_pth = 'dataset/vocab.txt'
         self.train_file = "dataset/training.txt"
         self.vocab_file = "dataset/vocab.txt"
+        
+    def update_config(self, config_updates):
+        for key, value in config_updates.items():
+            if hasattr(self, key):
+                # Add additional validation if necessary
+                # Example: if key == 'epoch' and value < 0:
+                #             raise ValueError("Epoch must be a positive integer")
+                setattr(self, key, value)
+            else:
+                raise ValueError(f"Attribute '{key}' not found in BertConfig")
 
     @property
     def embed_size(self):
@@ -51,6 +61,16 @@ class GPTConfig:
         self._num_head = 6
         self.num_layer = 6
         self.dropout = 0.2
+        
+    def update_config(self, config_updates):
+        for key, value in config_updates.items():
+            if hasattr(self, key):
+                # Add additional validation if necessary
+                # Example: if key == 'epoch' and value < 0:
+                #             raise ValueError("Epoch must be a positive integer")
+                setattr(self, key, value)
+            else:
+                raise ValueError(f"Attribute '{key}' not found in GPTConfig")
         
     @property
     def num_head(self):
@@ -89,6 +109,16 @@ class VITConfig:
         self.mlp_dropout:float=0.1, # Dropout for dense/MLP layers
         self.embedding_dropout:float=0.1, # Dropout for patch and position embeddings
         self.num_classes:int=1000
+        
+    def update_config(self, config_updates):
+        for key, value in config_updates.items():
+            if hasattr(self, key):
+                # Add additional validation if necessary
+                # Example: if key == 'epoch' and value < 0:
+                #             raise ValueError("Epoch must be a positive integer")
+                setattr(self, key, value)
+            else:
+                raise ValueError(f"Attribute '{key}' not found in VITConfig")
         
     @property
     def patch_size(self):
