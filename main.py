@@ -65,11 +65,15 @@ if __name__ == '__main__':
             request = requests.get("https://www.boss-pizza.co.uk/site/assets/images/uploads/2_3_5c232a9d83be_o.jpg")
             print(f"Downloading...")
             f.write(request.content)
+            
+        image_transform = transforms.Compose(
+            [transforms.Resize((config.img_size, config.img_size)),
+             transforms.ToTensor()])
 
         # Predict on custom image
         utils.pred_and_plot_image(model=pretrained_vit,
                             image_path="download.jpeg",
-                            transform=transforms.Resize((config.img_size, config.img_size)),
+                            transform=image_transform,
                             class_names=class_names)
     
     
